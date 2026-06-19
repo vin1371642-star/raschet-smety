@@ -11,7 +11,6 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  // Сеть-первым для свежей версии; офлайн — из кэша
   e.respondWith(
     fetch(e.request).then(resp => {
       const copy = resp.clone();
