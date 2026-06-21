@@ -1315,9 +1315,15 @@ async function shareFile(blob, filename, mime, title) {
     return;
   }
   const file = new File([blob], filename, { type: mime });
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    await navigator.share({ files: [file], title: title || filename });
-    return;
+  if (navigator.share) {
+    try {
+      if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: title || filename });
+        return;   // показан системный выбор приложения (мессенджеры)
+      }
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;   // пользователь закрыл выбор — не скачиваем
+    }
   }
   const url = URL.createObjectURL(blob);
   const a = Object.assign(document.createElement('a'), { href: url, download: filename });
