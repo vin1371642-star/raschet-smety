@@ -580,6 +580,11 @@ function showForm(est) {
     document.getElementById('d'+v).value = d[v] != null ? d[v] : '';
   });
 
+  // Новая смета — сворачиваем все категории для удобства
+  if (!est) {
+    [...new Set(WORK_ITEMS.map(w => w.cat))].forEach(c => COLLAPSED.add(c));
+    saveCollapsed();
+  }
   renderWIList(est?.items || []);
   recalcForm();
   showScreen('screen-form');
