@@ -87,6 +87,10 @@ input:focus,select:focus{outline:none;border-color:#0d6efd;box-shadow:0 0 0 3px 
 .wi-qty{width:62px;flex-shrink:0;padding:6px 8px;font-size:14px;text-align:center}
 .wi-cpick{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-top:5px}
 .cpick-label{font-size:12px;color:#6c757d;margin-right:2px;white-space:nowrap}
+.wi-cbadge{display:none}
+.wi-cbadge.up,.wi-cbadge.down{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:700;line-height:1.6;white-space:nowrap}
+.wi-cbadge.up{background:#ffc107;color:#222}
+.wi-cbadge.down{background:#198754;color:#fff}
 .wi-color,.wi-color-b,.wi-color-c{width:auto!important;padding:3px 6px!important;font-size:12px!important;-webkit-appearance:auto!important;border:1.5px solid #dee2e6;border-radius:6px;background:#fff}
 .wi-color-other{display:inline-block;width:118px;padding:3px 8px;font-size:12px;border:1.5px solid #dee2e6;border-radius:6px;background:#fff}
 .no-print{}
@@ -301,38 +305,38 @@ const LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAn4AAADECAYAAAABHixa
 const COMPANY = "ИП Мизанова Ирина Александровна";
 const COMPANY_DETAILS = "ИНН 234904347960\r\nОГРНИП 315237000003142\r\nг. Славянск-на-Кубани, ул. Ленина 62\r\n+79883377733";
 const WORK_ITEMS = [
-  {id:1,  cat:"Металлический каркас",  name:"Каркас перил П-обр",  unit:"шт",  price:0,  cp:19056,  note:"П-образное остекление",  noqty:1},
-  {id:2,  cat:"Металлический каркас",  name:"Каркас перил Г-обр",  unit:"шт",  price:0,  cp:14292,  note:"Г-образное остекление",  noqty:1},
+  {id:1,  cat:"Металлический каркас",  name:"Каркас перил П-обр",  unit:"шт",  price:0,  cp:19056,  note:"П-обр. остекление",  noqty:1},
+  {id:2,  cat:"Металлический каркас",  name:"Каркас перил Г-обр",  unit:"шт",  price:0,  cp:14292,  note:"Г-обр. остекление",  noqty:1},
   {id:3,  cat:"Металлический каркас",  name:"Каркас перил прямой",  unit:"шт",  price:0,  cp:10452,  note:"Прямое остекление",  noqty:1},
-  {id:4,  cat:"Металлический каркас",  name:"Каркас в пол",  unit:"шт",  price:0,  cp:11808,  noqty:1},
+  {id:4,  cat:"Металлический каркас",  name:"Каркас в пол",  unit:"шт",  price:0,  cp:11808,  note:"Остекление в пол",  noqty:1},
   {id:5,  cat:"Металлический каркас",  name:"Каркас боковой стены",  unit:"шт",  price:0,  cp:7776,  note:"Укажите кол-во боковых стен"},
   {id:6,  cat:"Металлический каркас",  name:"Каркас для кровли",  unit:"шт",  price:0,  cp:29880,  note:"Укажите подъем кровли",  noqty:1},
-  {id:7,  cat:"Металлический каркас",  name:"Расширение по плите",  unit:"шт",  price:0,  cp:26496,  note:"Размеры указываются с учетом выноса. Укажите на сколько и в какие стороны.",  noqty:1},
-  {id:8,  cat:"Кровля",  name:"Настил кровли (профнастил)",  unit:"шт",  price:0,  cp:15717.3,  noqty:1},
+  {id:7,  cat:"Металлический каркас",  name:"Расширение по плите",  unit:"шт",  price:0,  cp:26496,  note:"Размеры балкона указываются с учетом выноса. Укажите на сколько и в какие стороны.",  noqty:1},
+  {id:8,  cat:"Кровля",  name:"Настил кровли (профнастил)",  unit:"шт",  price:0,  cp:15717.3,  note:"Выберете цвет профнастила",  noqty:1},
   {id:9,  cat:"Утепление",  name:"Утепление под рамой (П-обр)",  unit:"шт",  price:0,  cp:12144,  note:"Пеноплекс 30мм + пенофол",  noqty:1},
   {id:10,  cat:"Утепление",  name:"Утепление под рамой (Г-обр)",  unit:"шт",  price:0,  cp:10356,  note:"Пеноплекс 30мм + пенофол",  noqty:1},
   {id:11,  cat:"Утепление",  name:"Утепление под рамой (прямое)",  unit:"шт",  price:0,  cp:7224,  note:"Пеноплекс 30мм + пенофол",  noqty:1},
   {id:12,  cat:"Утепление",  name:"Утепление потолка",  unit:"шт",  price:0,  cp:7800,  note:"Пеноплекс 30мм + пенофол",  noqty:1},
   {id:13,  cat:"Утепление",  name:"Утепление боковой стены",  unit:"шт",  price:0,  cp:6252,  note:"Укажите кол-во боковых стен. Пеноплекс 30мм + пенофол"},
   {id:14,  cat:"Утепление",  name:"Утепление пола",  unit:"шт",  price:0,  cp:7800,  note:"Пеноплекс 50мм + пенофол",  noqty:1},
-  {id:15,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (П-обр)",  unit:"шт",  price:0,  cp:18693,  noqty:1},
-  {id:58,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (Г-обр)",  unit:"шт",  price:0,  cp:12765,  noqty:1},
-  {id:16,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (боковые)",  unit:"шт",  price:0,  cp:11950.5,  note:"Укажите кол-во боковых стен"},
-  {id:59,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (прямая)",  unit:"шт",  price:0,  cp:9346.5,  note:"Количество = 1",  noqty:1},
-  {id:17,  cat:"Пол",  name:"Пол без подъема",  unit:"шт",  price:0,  cp:10320,  noqty:1},
-  {id:18,  cat:"Пол",  name:"Покрытие пола (линолеум)",  unit:"шт",  price:0,  cp:6480,  noqty:1},
-  {id:19,  cat:"Пол",  name:"Покрытие пола (ламинат)",  unit:"шт",  price:0,  cp:13872,  noqty:1},
-  {id:20,  cat:"Пол",  name:"Покрытие пола (кварц-винил Bonkeel)",  unit:"шт",  price:0,  cp:23760,  noqty:1},
-  {id:66,  cat:"Пол",  name:"Пол подъем на 100мм",  unit:"шт",  price:0,  cp:11040,  noqty:1},
-  {id:67,  cat:"Пол",  name:"Пол подъем 150мм",  unit:"шт",  price:0,  cp:12480,  noqty:1},
+  {id:15,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (П-обр)",  unit:"шт",  price:0,  cp:18693,  note:"Выберете цвет профнастила",  noqty:1},
+  {id:58,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (Г-обр)",  unit:"шт",  price:0,  cp:12765,  note:"Выберете цвет профнастила",  noqty:1},
+  {id:59,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (прямая)",  unit:"шт",  price:0,  cp:9346.5,  note:"Выберете цвет профнастила",  noqty:1},
+  {id:16,  cat:"Наружная обшивка",  name:"Обшивка снаружи профнастил (боковые)",  unit:"шт",  price:0,  cp:11950.5,  note:"Укажите кол-во боковых стен. Выберете цвет профнастила"},
+  {id:17,  cat:"Пол",  name:"Пол без подъема",  unit:"шт",  price:0,  cp:10320,  note:"Выберете покрытие",  noqty:1},
+  {id:66,  cat:"Пол",  name:"Пол подъем на 100мм",  unit:"шт",  price:0,  cp:11040,  note:"Выберете покрытие",  noqty:1},
+  {id:67,  cat:"Пол",  name:"Пол подъем на 150мм",  unit:"шт",  price:0,  cp:12480,  note:"Выберете покрытие",  noqty:1},
+  {id:18,  cat:"Пол",  name:"Покрытие пола (линолеум)",  unit:"шт",  price:0,  cp:6480,  note:"Выберете плинтус",  noqty:1},
+  {id:19,  cat:"Пол",  name:"Покрытие пола (ламинат)",  unit:"шт",  price:0,  cp:13872,  note:"Выберете плинтус",  noqty:1},
+  {id:20,  cat:"Пол",  name:"Покрытие пола (кварц-винил Bonkeel)",  unit:"шт",  price:0,  cp:23760,  note:"Выберете плинтус",  noqty:1},
   {id:68,  cat:"Пол",  name:"Плинтус + комплект соединителей",  unit:"шт",  price:0,  cp:2280,  note:"Есть выступ для балконной двери",  noqty:1},
-  {id:69,  cat:"Пол",  name:"Плинтус + комплект соединителей",  unit:"шт",  price:0,  cp:1800,  note:"Нет выступа доя балконной двери",  noqty:1},
-  {id:23,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (П-обр)",  unit:"шт",  price:0,  cp:14472,  noqty:1},
-  {id:21,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (Г-обр)",  unit:"шт",  price:0,  cp:11148,  noqty:1},
-  {id:22,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (прямое)",  unit:"шт",  price:0,  cp:7236,  noqty:1},
-  {id:24,  cat:"Внутренняя обшивка",  name:"Обшивка боковой стены ПВХ",  unit:"шт",  price:0,  cp:7044,  note:"Укажите кол-во боковых стен"},
-  {id:25,  cat:"Внутренняя обшивка",  name:"Обшивка потолка ПВХ",  unit:"шт",  price:0,  cp:5412,  noqty:1},
-  {id:26,  cat:"Внутренняя обшивка",  name:"Обшивка фасадной стены ПВХ",  unit:"шт",  price:0,  cp:13764,  noqty:1},
+  {id:69,  cat:"Пол",  name:"Плинтус + комплект соединителей",  unit:"шт",  price:0,  cp:1800,  note:"Нет выступа для балконной двери",  noqty:1},
+  {id:23,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (П-обр)",  unit:"шт",  price:0,  cp:14472,  note:"Выберете цвет отделки",  noqty:1},
+  {id:21,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (Г-обр)",  unit:"шт",  price:0,  cp:11148,  note:"Выберете цвет отделки",  noqty:1},
+  {id:22,  cat:"Внутренняя обшивка",  name:"Обшивка под рамой ПВХ (прямое)",  unit:"шт",  price:0,  cp:7236,  note:"Выберете цвет отделки",  noqty:1},
+  {id:24,  cat:"Внутренняя обшивка",  name:"Обшивка боковой стены ПВХ",  unit:"шт",  price:0,  cp:7044,  note:"Укажите кол-во боковых стен. Выберете цвет отделки"},
+  {id:25,  cat:"Внутренняя обшивка",  name:"Обшивка потолка ПВХ",  unit:"шт",  price:0,  cp:5412,  note:"Выберете цвет отделки",  noqty:1},
+  {id:26,  cat:"Внутренняя обшивка",  name:"Обшивка фасадной стены ПВХ",  unit:"шт",  price:0,  cp:13764,  note:"Выберете цвет отделки",  noqty:1},
   {id:27,  cat:"Откосы",  name:"Откосы на балконный блок до 300мм (Monblanc)",  unit:"шт",  price:0,  cp:11460,  noqty:1},
   {id:28,  cat:"Сушилки",  name:"Сушилка потолочная лиана 1,2м",  unit:"шт",  price:1000,  mk:1.4},
   {id:29,  cat:"Сушилки",  name:"Сушилка потолочная лиана 1,4м",  unit:"шт",  price:1050,  mk:1.4},
@@ -346,19 +350,19 @@ const WORK_ITEMS = [
   {id:40,  cat:"Материалы п.м",  name:"Доска 100*25",  unit:"шт",  price:100,  mk:1.4},
   {id:41,  cat:"Материалы п.м",  name:"Доска 100*50",  unit:"п.м",  price:150,  mk:1.4},
   {id:42,  cat:"Материалы п.м",  name:"Доска 150*50",  unit:"п.м",  price:200,  mk:1.4},
-  {id:43,  cat:"Материалы п.м",  name:"Квадрат-труба 80*80*3",  unit:"п.м",  price:650,  mk:1.4},
-  {id:44,  cat:"Материалы п.м",  name:"Квадрат-труба 80*40*3",  unit:"п.м",  price:400,  mk:1.4},
-  {id:45,  cat:"Материалы п.м",  name:"Квадрат-труба 60*60*3",  unit:"п.м",  price:400,  mk:1.4},
-  {id:46,  cat:"Материалы п.м",  name:"Квадрат-труба 60*40*3",  unit:"п.м",  price:350,  mk:1.4},
-  {id:47,  cat:"Материалы п.м",  name:"Квадрат-труба 40*40*3",  unit:"п.м",  price:300,  mk:1.4},
-  {id:48,  cat:"Материалы п.м",  name:"Квадрат-труба 40*20*2",  unit:"п.м",  price:150,  mk:1.4},
   {id:49,  cat:"Материалы п.м",  name:"Квадрат-труба 20*20*2",  unit:"п.м",  price:100,  mk:1.4},
-  {id:50,  cat:"Материалы п.м",  name:"Уголок 100*100*7",  unit:"п.м",  price:800,  mk:1.4},
-  {id:51,  cat:"Материалы п.м",  name:"Уголок 63*63*5",  unit:"п.м",  price:460,  mk:1.4},
-  {id:52,  cat:"Материалы п.м",  name:"Уголок 50*50*4",  unit:"п.м",  price:400,  mk:1.4},
+  {id:48,  cat:"Материалы п.м",  name:"Квадрат-труба 40*20*2",  unit:"п.м",  price:150,  mk:1.4},
+  {id:47,  cat:"Материалы п.м",  name:"Квадрат-труба 40*40*3",  unit:"п.м",  price:300,  mk:1.4},
+  {id:46,  cat:"Материалы п.м",  name:"Квадрат-труба 60*40*3",  unit:"п.м",  price:350,  mk:1.4},
+  {id:45,  cat:"Материалы п.м",  name:"Квадрат-труба 60*60*3",  unit:"п.м",  price:400,  mk:1.4},
+  {id:44,  cat:"Материалы п.м",  name:"Квадрат-труба 80*40*3",  unit:"п.м",  price:400,  mk:1.4},
+  {id:43,  cat:"Материалы п.м",  name:"Квадрат-труба 80*80*3",  unit:"п.м",  price:650,  mk:1.4},
   {id:53,  cat:"Материалы п.м",  name:"Уголок 40*40*4",  unit:"п.м",  price:240,  mk:1.4},
-  {id:54,  cat:"Материалы п.м",  name:"Пластина 50*4",  unit:"п.м",  price:150,  mk:1.4},
+  {id:52,  cat:"Материалы п.м",  name:"Уголок 50*50*4",  unit:"п.м",  price:400,  mk:1.4},
+  {id:51,  cat:"Материалы п.м",  name:"Уголок 63*63*5",  unit:"п.м",  price:460,  mk:1.4},
+  {id:50,  cat:"Материалы п.м",  name:"Уголок 100*100*7",  unit:"п.м",  price:800,  mk:1.4},
   {id:55,  cat:"Материалы п.м",  name:"Пластина 40*4",  unit:"п.м",  price:120,  mk:1.4},
+  {id:54,  cat:"Материалы п.м",  name:"Пластина 50*4",  unit:"п.м",  price:150,  mk:1.4},
   {id:56,  cat:"Услуги",  name:"Высотные работы",  unit:"м²",  price:450,  mk:0,  note:"Для обшивки снаружи и кровли"},
   {id:57,  cat:"Услуги",  name:"Услуги автовышки",  unit:"час",  price:2500,  mk:0}
 ];
@@ -694,6 +698,9 @@ function renderWIList(savedItems) {
           </select>
         </div>`;
       }
+      // бейдж наценки за цвет (как в EXE) — вставляем последним элементом в .wi-cpick
+      if (colorHtml) colorHtml = colorHtml.replace('</div>',
+        `<span class="wi-cbadge" data-id="${w.id}"></span></div>`);
 
       const cpDisplay = getItemClientPrice(w, getDims());
       html += `<div class="wi-row" data-wi-id="${w.id}" onclick="toggleWI(event,${w.id})">
@@ -721,6 +728,38 @@ function onColorChange(sel) {
   const other = cpick ? cpick.querySelector('.wi-color-other') : null;
   if (other) other.style.display = sel.value === '__other__' ? 'inline-block' : 'none';
   recalcForm();
+}
+
+// Выбранный цвет позиции (с учётом «другое...») — для бейджа наценки
+function getColorAValue(id) {
+  const sel = document.querySelector(`.wi-color[data-id="${id}"]`);
+  if (!sel) return '';
+  if (sel.value === '__other__') {
+    const o = document.querySelector(`.wi-color-other[data-id="${id}"]`);
+    return o ? o.value.trim() : '';
+  }
+  return sel.value;
+}
+
+// Подсветка наценки % за цвет (как в EXE-версии)
+function updateColorBadge(id) {
+  const badge = document.querySelector(`.wi-cbadge[data-id="${id}"]`);
+  if (!badge) return;
+  const cb    = document.getElementById('wic' + id);
+  const color = getColorAValue(id);
+  const pct   = Math.round((getColorMult(id, color) - 1) * 100);
+  if (!cb || !cb.checked || !color || pct === 0) {
+    badge.textContent = '';
+    badge.className = 'wi-cbadge';
+    return;
+  }
+  badge.textContent = (pct > 0 ? '+' : '') + pct + '% цвет';
+  badge.className = 'wi-cbadge ' + (pct > 0 ? 'up' : 'down');
+}
+
+function refreshColorBadges() {
+  document.querySelectorAll('.wi-cbadge').forEach(b =>
+    updateColorBadge(parseInt(b.dataset.id)));
 }
 
 function toggleWI(e, id) {
@@ -813,6 +852,7 @@ function recalcForm() {
   } else {
     discRow.style.display = 'none';
   }
+  refreshColorBadges();
 }
 
 // ══════════════════════════════════════════════
