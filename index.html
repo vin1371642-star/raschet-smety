@@ -95,6 +95,14 @@ input:focus,select:focus{outline:none;border-color:#0d6efd;box-shadow:0 0 0 3px 
 .tpl-del{background:none;border:none;font-size:17px;cursor:pointer;padding:4px 8px}
 html[data-theme="dark"] .tpl-box{background:#1f242b;color:#e4e6eb}
 html[data-theme="dark"] .tpl-item{border-bottom-color:#333a44}
+.share-wrap{position:relative}
+.share-menu{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.28);display:none;flex-direction:column;min-width:220px;z-index:1500;overflow:hidden}
+.share-menu.open{display:flex}
+.share-menu button{background:none;border:none;text-align:left;padding:13px 16px;font-size:15px;color:#222;cursor:pointer;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+.share-menu button:last-child{border-bottom:none}
+.share-menu button:active{background:#eef4ff}
+html[data-theme="dark"] .share-menu{background:#262c34}
+html[data-theme="dark"] .share-menu button{color:#e4e6eb;border-bottom-color:#333a44}
 html[data-theme="dark"] .wi-toolbar{border-bottom-color:#333a44}
 html[data-theme="dark"] .wi-toolbar input[type=search],html[data-theme="dark"] .wi-tool-btn{background:#1f242b;color:#e4e6eb;border-color:#39404a}
 html[data-theme="dark"] .cat-count{background:#243447;color:#7fb0ff}
@@ -318,10 +326,17 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
   <div class="nav no-print">
     <button class="btn-back" onclick="showView(currentId)"><span class="chev">‹</span> Назад</button>
     <h1>Предпросмотр</h1>
-    <button class="btn-nav" onclick="sendPdf()" style="margin-right:4px">📤 Смета</button>
-    <button class="btn-nav" onclick="sendInvoice(this)" style="margin-right:4px">🧾 Накл.</button>
-    <button class="btn-nav" onclick="shareText()">💬 Текст</button>
-    <button class="btn-nav" onclick="shareWhatsApp()" title="Отправить в WhatsApp">📲 WA</button>
+    <div class="share-wrap">
+      <button class="btn-nav" onclick="toggleShareMenu(event)">📤 Отправить ▾</button>
+      <div id="shareMenu" class="share-menu">
+        <button onclick="shareMenuPick(sendPdf)">📄 Смета (PDF)</button>
+        <button onclick="shareMenuPick(sendInvoice)">🧾 Накладная (PDF)</button>
+        <button onclick="shareMenuPick(shareWhatsApp)">💬 WhatsApp</button>
+        <button onclick="shareMenuPick(shareTelegram)">✈️ Telegram</button>
+        <button onclick="shareMenuPick(shareMax)">🟣 MAX</button>
+        <button onclick="shareMenuPick(shareText)">📋 Текст / другое приложение</button>
+      </div>
+    </div>
   </div>
   <div class="container" id="pdfContainer"></div>
 </div>
@@ -1552,6 +1567,32 @@ function shareWhatsApp() {
   const { text } = buildEstimateText(est);
   window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
 }
+function shareTelegram() {
+  const est = load().find(e => e.id === currentId);
+  if (!est) return;
+  const { text } = buildEstimateText(est);
+  window.open('https://t.me/share/url?url=' + encodeURIComponent(text), '_blank');
+}
+function shareMax() {
+  const est = load().find(e => e.id === currentId);
+  if (!est) return;
+  const { text } = buildEstimateText(est);
+  window.open('https://max.ru/:share?text=' + encodeURIComponent(text), '_blank');
+}
+
+// Меню «Отправить»
+function toggleShareMenu(e) {
+  e.stopPropagation();
+  document.getElementById('shareMenu').classList.toggle('open');
+}
+function shareMenuPick(fn) {
+  document.getElementById('shareMenu').classList.remove('open');
+  fn();
+}
+document.addEventListener('click', () => {
+  const m = document.getElementById('shareMenu');
+  if (m) m.classList.remove('open');
+});
 
 // ══════════════════════════════════════════════
 // УТИЛИТЫ
