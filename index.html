@@ -101,6 +101,8 @@ html[data-theme="dark"] .tpl-item{border-bottom-color:#333a44}
 .share-menu button{background:none;border:none;text-align:left;padding:13px 16px;font-size:15px;color:#222;cursor:pointer;border-bottom:1px solid #f0f0f0;white-space:nowrap}
 .share-menu button:last-child{border-bottom:none}
 .share-menu button:active{background:#eef4ff}
+.share-sep{padding:7px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.03em;background:#f6f8fb}
+html[data-theme="dark"] .share-sep{background:#1c2128;color:#8b95a1}
 html[data-theme="dark"] .share-menu{background:#262c34}
 html[data-theme="dark"] .share-menu button{color:#e4e6eb;border-bottom-color:#333a44}
 html[data-theme="dark"] .wi-toolbar{border-bottom-color:#333a44}
@@ -329,12 +331,13 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
     <div class="share-wrap">
       <button class="btn-nav" onclick="toggleShareMenu(event)">📤 Отправить ▾</button>
       <div id="shareMenu" class="share-menu">
-        <button onclick="shareMenuPick(sendPdf)">📄 Смета (PDF)</button>
-        <button onclick="shareMenuPick(sendInvoice)">🧾 Накладная (PDF)</button>
+        <div class="share-sep">📎 Файл PDF (выбрать мессенджер)</div>
+        <button onclick="shareMenuPick(sendPdf)">📄 Смета — PDF-файл</button>
+        <button onclick="shareMenuPick(sendInvoice)">🧾 Накладная — PDF-файл</button>
+        <div class="share-sep">✍️ Текстом</div>
         <button onclick="shareMenuPick(shareWhatsApp)">💬 WhatsApp</button>
         <button onclick="shareMenuPick(shareTelegram)">✈️ Telegram</button>
         <button onclick="shareMenuPick(shareMax)">🟣 MAX</button>
-        <button onclick="shareMenuPick(shareText)">📋 Текст / другое приложение</button>
       </div>
     </div>
   </div>
