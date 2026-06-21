@@ -43,6 +43,8 @@ input:focus,select:focus{outline:none;border-color:#0d6efd;box-shadow:0 0 0 3px 
 .dim-field{flex:1 1 80px;min-width:78px}
 .dim-field label{font-size:11px;white-space:nowrap}
 .dim-field input{font-size:14px;padding:7px 6px;text-align:center}
+.dim-field input.dim-filled{background:#fff3cd!important;border-color:#ffc107!important;box-shadow:0 0 0 2px rgba(255,193,7,.45)!important}
+.dim-field input.dim-missing{background:#fde2e1!important;border-color:#dc3545!important;box-shadow:0 0 0 2px rgba(220,53,69,.45)!important}
 
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:10px;padding:12px 20px;font-size:15px;font-weight:600;cursor:pointer;width:100%;margin-top:4px}
@@ -1027,7 +1029,26 @@ function recalcForm() {
     if (_incompleteN) _dw.textContent =
       `⚠️ Не введены нужные размеры для ${_incompleteN} ${pluralRab(_incompleteN)} — цена считается по типовым.`;
   }
+  updateDimHighlights(items, dims);
   refreshColorBadges();
+}
+
+// Подсветка полей размеров: введён — жёлтым, нужен но пуст — красным
+function updateDimHighlights(items, dims) {
+  const needCore = new Set(), needOver = new Set();
+  items.forEach(it => {
+    const nd = neededReqDims(it.id);
+    nd.core.forEach(v => needCore.add(v));
+    nd.over.forEach(v => needOver.add(v));
+  });
+  const overSat = [...needOver].some(v => dims[v]);
+  ['A', 'B', 'C', 'D', 'E', 'K', 'L', 'M', 'N', 'P'].forEach(v => {
+    const el = document.getElementById('d' + v); if (!el) return;
+    el.classList.remove('dim-filled', 'dim-missing');
+    if (dims[v]) el.classList.add('dim-filled');
+    else if (needCore.has(v)) el.classList.add('dim-missing');
+    else if (needOver.has(v) && !overSat) el.classList.add('dim-missing');
+  });
 }
 
 // ══════════════════════════════════════════════
