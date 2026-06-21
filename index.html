@@ -1122,7 +1122,7 @@ function renderView(est) {
       return `<tr><td>${wi.name}${colorNote}</td><td style="text-align:center">${it.qty} ${wi.unit}</td><td style="text-align:right;font-weight:600">${fmtRub(tot)}</td></tr>`;
     }).join('');
     const head = `<tr><td colspan="3" style="background:#eef4ff;font-weight:700;font-size:12px;color:#0d6efd;padding:6px 8px">${g.cat}</td></tr>`;
-    const sub = _multiCat ? `<tr><td colspan="2" style="text-align:right;color:#666;font-size:12px;padding:3px 8px">Подытог</td><td style="text-align:right;font-weight:700;font-size:12px;padding:3px 8px">${fmtRub(g.subtotal)}</td></tr>` : '';
+    const sub = _multiCat ? `<tr><td colspan="2" style="text-align:right;color:#666;font-size:12px;padding:3px 8px">ИТОГО</td><td style="text-align:right;font-weight:700;font-size:12px;padding:3px 8px">${fmtRub(g.subtotal)}</td></tr>` : '';
     return head + rows + sub;
   }).join('');
 
@@ -1207,16 +1207,20 @@ function buildEstimateHtml(est) {
   ].filter(r => r[1]).map(r =>
     `<tr><td style="color:#555;padding:4px 12px 4px 0;width:130px">${r[0]}</td><td style="padding:4px 0"><b>${r[1]} м</b></td></tr>`
   ).join('');
-  const itemRows = est.items.map(it => {
-    const wi = WORK_ITEMS.find(w => w.id === it.id);
-    if (!wi) return '';
-    const tot = getItemLineTotal(wi, it, d);
-    const _cp = [it.color, it.colorB, it.colorC].filter(Boolean);
-    const colorNote = _cp.length ? ` (${_cp.join(' / ')})` : '';
-    return `<tr><td style="padding:7px 8px;border-bottom:1px solid #eee">${wi.name}${colorNote}</td>
+  const _grp = groupItemsByCat(est.items, d);
+  const _multi = _grp.length > 1;
+  const itemRows = _grp.map(g => {
+    const rows = g.rows.map(({ wi, it, tot }) => {
+      const _cp = [it.color, it.colorB, it.colorC].filter(Boolean);
+      const colorNote = _cp.length ? ` (${_cp.join(' / ')})` : '';
+      return `<tr><td style="padding:7px 8px;border-bottom:1px solid #eee">${wi.name}${colorNote}</td>
       <td style="padding:7px 8px;border-bottom:1px solid #eee;text-align:center;white-space:nowrap">${it.qty} ${wi.unit}</td>
       <td style="padding:7px 8px;border-bottom:1px solid #eee;text-align:right;font-weight:600;white-space:nowrap">${fmtRub(tot)}</td></tr>`;
-  }).filter(Boolean).join('');
+    }).join('');
+    const head = `<tr><td colspan="3" style="background:#eef4ff;font-weight:700;color:#0d6efd;padding:6px 8px">${g.cat}</td></tr>`;
+    const sub = _multi ? `<tr><td colspan="2" style="text-align:right;color:#666;padding:3px 8px">ИТОГО</td><td style="text-align:right;font-weight:700;padding:3px 8px;white-space:nowrap">${fmtRub(g.subtotal)}</td></tr>` : '';
+    return head + rows + sub;
+  }).join('');
   const title = (est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета';
   const sub = [est.client_name ? `<b>${est.client_name}</b>` : '', est.date || '',
     est.appeal_no ? 'Обр. №' + est.appeal_no : ''].filter(Boolean).join(' &nbsp;·&nbsp; ');
@@ -1389,20 +1393,32 @@ function drawEstimate(est, mode) {
     tx('Кол-во',PX+c1+c2/2,y+10*S,Fh2,'#555','center');
     tx('Сумма',PX+CW-6*S,y+10*S,Fh2,'#555','right');
     y+=14*S;hl(y,'#dee2e6');
-    for(const it of est.items){
-      const wi=WORK_ITEMS.find(w=>w.id===it.id);if(!wi)continue;
-      const itemTot=getItemLineTotal(wi,it,d);
-      const tot=fmtRub(itemTot),qty=it.qty+' '+wi.unit;
-      const _cp2=[it.color,it.colorB,it.colorC].filter(Boolean);
-      const name=wi.name+(_cp2.length?` (${_cp2.join(' / ')})`:'');
-      let n1=name,n2='';
-      if(ctx.font=Fbody,ctx.measureText(n1).width>c1-12*S)[n1,n2]=wrap(name,Fbody,c1-12*S);
-      const rh=n2?32*S:16*S;chk(rh);
-      tx(n1,PX+6*S,y+11*S,Fbody);
-      if(n2)tx(n2,PX+6*S,y+25*S,Fbody);
-      tx(qty,PX+c1+c2/2,y+(n2?19:11)*S,Fsm,'#666','center');
-      tx(tot,PX+CW-6*S,y+(n2?19:11)*S,Fbody,'#212529','right');
-      y+=rh;hl(y,'#f0f2f5');
+    const _groups=groupItemsByCat(est.items,d);
+    const _multi=_groups.length>1;
+    for(const g of _groups){
+      chk(16*S);                                   // заголовок категории
+      ctx.fillStyle='#eef4ff';ctx.fillRect(PX,y,CW,14*S);
+      tx(g.cat,PX+6*S,y+10*S,Fh2,'#0d6efd');
+      y+=14*S;hl(y,'#dbe7ff');
+      for(const {wi,it,tot:itemTot} of g.rows){
+        const tot=fmtRub(itemTot),qty=it.qty+' '+wi.unit;
+        const _cp2=[it.color,it.colorB,it.colorC].filter(Boolean);
+        const name=wi.name+(_cp2.length?` (${_cp2.join(' / ')})`:'');
+        let n1=name,n2='';
+        if(ctx.font=Fbody,ctx.measureText(n1).width>c1-12*S)[n1,n2]=wrap(name,Fbody,c1-12*S);
+        const rh=n2?32*S:16*S;chk(rh);
+        tx(n1,PX+6*S,y+11*S,Fbody);
+        if(n2)tx(n2,PX+6*S,y+25*S,Fbody);
+        tx(qty,PX+c1+c2/2,y+(n2?19:11)*S,Fsm,'#666','center');
+        tx(tot,PX+CW-6*S,y+(n2?19:11)*S,Fbody,'#212529','right');
+        y+=rh;hl(y,'#f0f2f5');
+      }
+      if(_multi){                                   // ИТОГО по категории
+        chk(15*S);
+        tx('ИТОГО',PX+c1,y+11*S,Fsm,'#666','right');
+        tx(fmtRub(g.subtotal),PX+CW-6*S,y+11*S,Fh2,'#212529','right');
+        y+=16*S;hl(y,'#dee2e6');
+      }
     }
     y+=14*S;
   }
@@ -1506,7 +1522,7 @@ function shareWhatsApp() {
 // УТИЛИТЫ
 // ══════════════════════════════════════════════
 function fmtRub(v) {
-  return Math.round(v).toLocaleString('ru-RU') + ' ₽';
+  return Math.round(v).toLocaleString('ru-RU') + ' ₽';
 }
 function today() {
   return new Date().toLocaleDateString('ru-RU');
