@@ -85,6 +85,16 @@ input:focus,select:focus{outline:none;border-color:#0d6efd;box-shadow:0 0 0 3px 
 .wi-tool-btn{font-size:12px;padding:6px 10px;border:1.5px solid #dee2e6;border-radius:8px;background:#fff;color:#333;cursor:pointer;white-space:nowrap}
 .wi-tool-btn.active{background:#0d6efd;color:#fff;border-color:#0d6efd}
 .sel-count{font-size:12px;color:#198754;font-weight:700;white-space:nowrap}
+.tpl-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000;display:none;align-items:flex-end}
+.tpl-box{background:#fff;width:100%;max-height:72vh;overflow:auto;border-radius:16px 16px 0 0;padding:14px}
+.tpl-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:15px;margin-bottom:8px}
+.tpl-x{background:none;border:none;font-size:20px;cursor:pointer;color:#888;line-height:1}
+.tpl-item{display:flex;align-items:center;gap:8px;padding:12px 6px;border-bottom:1px solid #eef0f3}
+.tpl-name{flex:1;font-size:15px;cursor:pointer}
+.tpl-cnt{color:#888;font-size:12px}
+.tpl-del{background:none;border:none;font-size:17px;cursor:pointer;padding:4px 8px}
+html[data-theme="dark"] .tpl-box{background:#1f242b;color:#e4e6eb}
+html[data-theme="dark"] .tpl-item{border-bottom-color:#333a44}
 html[data-theme="dark"] .wi-toolbar{border-bottom-color:#333a44}
 html[data-theme="dark"] .wi-toolbar input[type=search],html[data-theme="dark"] .wi-tool-btn{background:#1f242b;color:#e4e6eb;border-color:#39404a}
 html[data-theme="dark"] .cat-count{background:#243447;color:#7fb0ff}
@@ -320,6 +330,14 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
 <div class="form-total-bar" id="formBar">
   <span>К оплате:</span>
   <span id="formBarTotal">—</span>
+</div>
+
+<!-- Выбор сохранённого набора работ -->
+<div id="tplModal" class="tpl-modal" onclick="if(event.target===this)closeTplModal()">
+  <div class="tpl-box">
+    <div class="tpl-head"><span>Сохранённые наборы</span><button class="tpl-x" onclick="closeTplModal()">✕</button></div>
+    <div id="tplList"></div>
+  </div>
 </div>
 
 <script>
@@ -839,19 +857,28 @@ function saveTemplate() {
   localStorage.setItem('balcony_templates', JSON.stringify(tpl));
   alert(`Набор «${name}» сохранён (${ids.length} работ)`);
 }
+function _esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+let _tplNames = [];
+// Открыть визуальный выбор наборов
 function applyTemplate() {
   const tpl = getTemplates();
-  const names = Object.keys(tpl);
-  if (!names.length) { alert('Сохранённых наборов пока нет.\nОтметьте работы и нажмите «Сохранить набор».'); return; }
-  let pick = names[0];
-  if (names.length > 1) {
-    const list = names.map((n, i) => `${i + 1}. ${n} (${tpl[n].length})`).join('\n');
-    const ans = prompt('Какой набор применить? Введите номер:\n' + list, '1');
-    const idx = parseInt(ans) - 1;
-    if (isNaN(idx) || idx < 0 || idx >= names.length) return;
-    pick = names[idx];
-  }
-  const ids = new Set(tpl[pick]);
+  if (!Object.keys(tpl).length) { alert('Сохранённых наборов пока нет.\nОтметьте работы и нажмите «Сохранить набор».'); return; }
+  renderTplList();
+  document.getElementById('tplModal').style.display = 'flex';
+}
+function closeTplModal() { document.getElementById('tplModal').style.display = 'none'; }
+function renderTplList() {
+  const tpl = getTemplates();
+  _tplNames = Object.keys(tpl);
+  document.getElementById('tplList').innerHTML = _tplNames.map((n, i) =>
+    `<div class="tpl-item">
+       <span class="tpl-name" onclick="applyTemplateByIdx(${i})">${_esc(n)} <span class="tpl-cnt">(${tpl[n].length})</span></span>
+       <button class="tpl-del" onclick="delTemplate(${i})" title="Удалить">🗑</button>
+     </div>`).join('');
+}
+function applyTemplateByIdx(i) {
+  const tpl = getTemplates();
+  const ids = new Set(tpl[_tplNames[i]] || []);
   document.querySelectorAll('#wiList .wi-check').forEach(cb => {
     const on = ids.has(parseInt(cb.dataset.id));
     cb.checked = on;
@@ -859,6 +886,14 @@ function applyTemplate() {
     if (cpick) cpick.style.display = on ? 'flex' : 'none';
   });
   recalcForm(); updateSelCount(); refreshWiVisibility();
+  closeTplModal();
+}
+function delTemplate(i) {
+  const name = _tplNames[i];
+  if (!confirm(`Удалить набор «${name}»?`)) return;
+  const tpl = getTemplates(); delete tpl[name];
+  localStorage.setItem('balcony_templates', JSON.stringify(tpl));
+  if (Object.keys(tpl).length) renderTplList(); else closeTplModal();
 }
 
 function onWICheck(cb) {
