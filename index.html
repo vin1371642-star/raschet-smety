@@ -942,6 +942,23 @@ function calcTotals(items, discPct, discRub, dims) {
   return { client, discAmt, final: round2(Math.max(0, client - discAmt)) };
 }
 
+// Какие размеры (A,B,C,D,E,K,L) реально нужны формуле работы — парсим из ITEM_MATERIALS.
+// Выносы M,N,P не требуем (0 для них — нормальное значение).
+const _needDimsCache = {};
+function neededReqDims(id) {
+  if (_needDimsCache[id]) return _needDimsCache[id];
+  const out = [];
+  const mats = ITEM_MATERIALS[id];
+  if (mats) {
+    const f = mats.map(m => (m.fpcs || '') + ' ' + (m.flm || '')).join(' ');
+    ['A', 'B', 'C', 'D', 'E', 'K', 'L'].forEach(v => {
+      if (new RegExp('\\b' + v + '\\b').test(f)) out.push(v);
+    });
+  }
+  return (_needDimsCache[id] = out);
+}
+function pluralRab(n) { return (n % 10 === 1 && n % 100 !== 11) ? 'работы' : 'работ'; }
+
 function recalcForm() {
   const dims  = getDims();
   // Авто-qty для откосов (calc_type='slopes'): slopes_qty = E*2 + K + 0.3 (calc.py).
@@ -987,11 +1004,15 @@ function recalcForm() {
   } else {
     discRow.style.display = 'none';
   }
-  // подсказка: выбраны формульные работы, но размеры не заполнены
-  const _needDims = items.some(it => ITEM_MATERIALS[it.id]);
-  const _hasDims = dims.A || dims.B || dims.C || dims.D || dims.E || dims.K || dims.L;
+  // подсказка: для выбранных работ не введены нужные ИМ размеры (по-работно)
+  let _incompleteN = 0;
+  items.forEach(it => { if (neededReqDims(it.id).some(v => !dims[v])) _incompleteN++; });
   const _dw = document.getElementById('dimWarn');
-  if (_dw) _dw.style.display = (_needDims && !_hasDims) ? 'block' : 'none';
+  if (_dw) {
+    _dw.style.display = _incompleteN ? 'block' : 'none';
+    if (_incompleteN) _dw.textContent =
+      `⚠️ Не введены нужные размеры для ${_incompleteN} ${pluralRab(_incompleteN)} — цена считается по типовым.`;
+  }
   refreshColorBadges();
 }
 
