@@ -398,7 +398,7 @@ const WORK_ITEMS = [
   {id:24,  cat:"Внутренняя обшивка",  name:"Обшивка боковой стены ПВХ",  unit:"шт",  price:0,  cp:7236,  note:"Укажите кол-во боковых стен. Выберете цвет отделки"},
   {id:25,  cat:"Внутренняя обшивка",  name:"Обшивка потолка ПВХ",  unit:"шт",  price:0,  cp:5412,  note:"Выберете цвет отделки",  noqty:1},
   {id:26,  cat:"Внутренняя обшивка",  name:"Обшивка фасадной стены ПВХ",  unit:"шт",  price:0,  cp:13764,  note:"Выберете цвет отделки",  noqty:1},
-  {id:27,  cat:"Откосы",  name:"Откосы на балконный блок до 300мм (Monblanc)",  unit:"шт",  price:0,  cp:11460,  noqty:1},
+  {id:27,  cat:"Откосы",  name:"Откосы на балконный блок до 300мм (Monblanc)",  unit:"п.м.",  price:0,  cp:11460,  noqty:1},
   {id:28,  cat:"Сушилки",  name:"Сушилка потолочная лиана 1,2м",  unit:"шт",  price:1000,  mk:1.4},
   {id:29,  cat:"Сушилки",  name:"Сушилка потолочная лиана 1,4м",  unit:"шт",  price:1050,  mk:1.4},
   {id:30,  cat:"Сушилки",  name:"Сушилка потолочная лиана 1,6м",  unit:"шт",  price:1150,  mk:1.4},
@@ -1036,6 +1036,9 @@ function recalcForm() {
   if (dims.E && dims.K) {
     const slopesQty = round2(dims.E * 2 + dims.K + 0.3);
     SLOPES_IDS.forEach(sid => {
+      // Формульные откосы уже учитывают размеры блока в ITEM_MATERIALS —
+      // qty оставляем =1, иначе цена умножается дважды (двойной счёт).
+      if (ITEM_MATERIALS[sid]) return;
       document.querySelectorAll(`.wi-qty[data-id="${sid}"]`).forEach(el => { el.value = slopesQty; });
     });
   }
