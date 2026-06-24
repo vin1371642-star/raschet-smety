@@ -317,8 +317,7 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
   <div class="nav">
     <button class="btn-back" onclick="showList()"><span class="chev">‹</span> Назад</button>
     <h1 id="viewTitle">Смета</h1>
-    <button class="btn-nav" onclick="showPdf()" style="margin-right:4px">📄 PDF</button>
-    <button class="btn-nav" onclick="editCurrent()">Изменить</button>
+    <button class="btn-nav" onclick="showPdf()">📄 Предпросмотр</button>
   </div>
   <div class="container" id="viewContainer"></div>
 </div>
@@ -1179,6 +1178,12 @@ function renderView(est) {
   }).join('');
 
   document.getElementById('viewContainer').innerHTML = `
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="sendPdf(this)">📥 Скачать PDF</button>
+      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="editCurrent()">✏️ Редактировать</button>
+      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="duplicateEst(${est.id})">📋 Копировать</button>
+      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="sendInvoice(this)">📄 Накладная</button>
+    </div>
     <div class="card">
       <div class="card-header">Клиент</div>
       <div class="card-body">
@@ -1214,7 +1219,6 @@ function renderView(est) {
 
     ${est.notes ? `<div class="card"><div class="card-header">Примечание</div><div class="card-body" style="color:#555">${est.notes}</div></div>` : ''}
 
-    <button class="btn btn-outline" style="margin-bottom:10px" onclick="duplicateEst(${est.id})">📋 Создать копию</button>
     <button class="btn btn-danger" style="margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
   `;
 }
@@ -1346,11 +1350,11 @@ async function shareFile(blob, filename, mime, title) {
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
 
-async function sendPdf() {
+async function sendPdf(btn) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
   const title = (est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета';
-  const pdfBtn = document.querySelector('#screen-pdf .btn-nav');
+  const pdfBtn = btn || document.querySelector('#screen-pdf .btn-nav');
   const origTxt = pdfBtn ? pdfBtn.textContent : '';
   if (pdfBtn) { pdfBtn.textContent = '⏳'; pdfBtn.disabled = true; }
   try {
