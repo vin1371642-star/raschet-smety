@@ -210,7 +210,7 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
 .btn-open:active{background:#e7f1ff}
 
 .view-grid{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
-.view-grid>.card{flex:1 1 280px;margin-bottom:0}
+.view-grid>.card{flex:0 1 calc(33.333% - 8px);min-width:240px;margin-bottom:0}
 .kv-table{width:100%;border-collapse:collapse;font-size:14px}
 .kv-table td{padding:8px 14px;border-bottom:1px solid #eef0f2}
 .kv-table tr:last-child td{border-bottom:none}
@@ -1553,7 +1553,12 @@ async function shareFile(blob, filename, mime, title) {
     return;
   }
   const file = new File([blob], filename, { type: mime });
-  if (navigator.share) {
+  // На КОМПЬЮТЕРЕ «Скачать PDF» должно именно скачивать файл (как в EXE).
+  // На ПК браузер поддерживает navigator.share и без этой проверки открывал бы
+  // «Поделиться», из-за чего PDF не скачивался. На ТЕЛЕФОНЕ (<768px) оставляем
+  // системное «Поделиться» — это нужно для отправки в мессенджеры.
+  const onDesktop = window.matchMedia && window.matchMedia('(min-width:768px)').matches;
+  if (!onDesktop && navigator.share) {
     try {
       if (!navigator.canShare || navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: title || filename });
