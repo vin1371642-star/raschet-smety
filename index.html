@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta id="viewportMeta" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Расчёт сметы">
 <link id="appTouchIcon" rel="apple-touch-icon" href="">
@@ -743,6 +743,11 @@ function showScreen(id) {
   if (exeSmety) exeSmety.classList.toggle('active', id === 'screen-list');
   const exeK = document.getElementById('exeKsmete');
   if (exeK) exeK.style.display = (currentId && id !== 'screen-login') ? '' : 'none';
+  // Зум пальцами разрешаем ТОЛЬКО на предпросмотре PDF (на формах он мешает)
+  const vp = document.getElementById('viewportMeta');
+  if (vp) vp.setAttribute('content', (id === 'screen-pdf')
+    ? 'width=device-width,initial-scale=1,viewport-fit=cover'
+    : 'width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');
   window.scrollTo(0,0);
 }
 
