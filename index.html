@@ -463,17 +463,10 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 <div id="screen-pdf" class="screen">
   <div class="nav no-print">
     <button class="btn-back" onclick="showView(currentId)"><span class="chev">‹</span> Назад</button>
-    <h1>Предпросмотр</h1>
-    <div class="share-wrap">
-      <button class="btn-nav" onclick="toggleShareMenu(event)">📤 Отправить ▾</button>
-      <div id="shareMenu" class="share-menu">
-        <div class="share-sep">Отправить PDF в мессенджер</div>
-        <button onclick="shareMenuPick(sendPdf)">📄 Смета (PDF)</button>
-        <button onclick="shareMenuPick(sendInvoice)">🧾 Накладная (PDF)</button>
-      </div>
-    </div>
+    <h1 id="pdfTitle">Просмотр PDF</h1>
+    <button class="btn-nav" onclick="sendCurrentPdf(this)">📤 Отправить</button>
   </div>
-  <div class="container" id="pdfContainer"></div>
+  <div class="container" id="pdfContainer" style="background:#e9ecef"></div>
 </div>
 
 <!-- Sticky total bar (вне экранов, управляется JS) -->
@@ -1494,10 +1487,10 @@ function renderView(est) {
     <!-- ═══ Телефон: карточки (как было) ═══ -->
     <div class="only-mobile">
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-        <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="sendPdf(this)">📥 Скачать PDF</button>
+        <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="showPdf('client')">📄 Смета (PDF)</button>
         <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="editCurrent()">✏️ Редактировать</button>
         <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="duplicateEst(${est.id})">📋 Копировать</button>
-        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="sendInvoice(this)">📄 Накладная</button>
+        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="showPdf('invoice')">🧾 Накладная (PDF)</button>
       </div>
       <div class="card">
         <div class="card-header">Клиент</div>
@@ -1619,12 +1612,38 @@ ${t.discAmt > 0 ? `<div style="color:#dc3545;font-size:14px;margin-top:4px">Ск
 ${est.notes ? `<div style="margin-top:12px;color:#555;font-size:13px;border-top:1px solid #eee;padding-top:10px">Примечание: ${est.notes}</div>` : ''}` };
 }
 
-function showPdf() {
+// Предпросмотр реального PDF: рисуем страницы и показываем как картинки,
+// затем кнопка «Отправить» шлёт ровно этот же документ в мессенджер.
+let _pdfPages = null, _pdfTitle = 'Смета', _pdfMode = 'client';
+function showPdf(mode) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
-  const { html } = buildEstimateHtml(est);
-  document.getElementById('pdfContainer').innerHTML = `<div style="background:#fff;padding:20px 16px;min-height:100vh">${html}</div>`;
+  _pdfMode = mode || 'client';
+  _pdfPages = drawEstimate(est, _pdfMode);
+  _pdfTitle = (_pdfMode === 'invoice')
+    ? 'Накладная №' + (est.contract_no || est.id)
+    : ((est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета');
+  const tEl = document.getElementById('pdfTitle');
+  if (tEl) tEl.textContent = (_pdfMode === 'invoice') ? 'Накладная' : 'Смета';
+  document.getElementById('pdfContainer').innerHTML = _pdfPages.map(c =>
+    `<img src="${c.toDataURL('image/jpeg', 0.9)}" alt="PDF" style="width:100%;display:block;margin:0 auto 12px;box-shadow:0 1px 8px rgba(0,0,0,.3);background:#fff">`
+  ).join('');
   showScreen('screen-pdf');
+}
+
+// Отправить (или скачать на ПК) ровно тот PDF, что в предпросмотре
+async function sendCurrentPdf(btn) {
+  const est = load().find(e => e.id === currentId);
+  if (!est) return;
+  const pages = _pdfPages || drawEstimate(est, _pdfMode);
+  const orig = btn ? btn.textContent : '';
+  if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
+  try {
+    const blob = await pagesToPdfBlob(pages);
+    await shareFile(blob, _pdfTitle + '.pdf', 'application/pdf', _pdfTitle);
+  } catch (e) {
+    alert('Не удалось отправить PDF: ' + (e && e.message ? e.message : e));
+  } finally { if (btn) { btn.textContent = orig; btn.disabled = false; } }
 }
 
 function blobToBase64(blob) {
