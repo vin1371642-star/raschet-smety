@@ -1777,27 +1777,34 @@ ${est.notes ? `<p class="footer">Примечание: ${esc(est.notes)}</p>` : 
 }
 
 // Печать HTML-бланка через браузер (как EXE: Edge --print-to-pdf → «Сохранить как PDF»)
-function printDoc(html) {
+function printDoc(html, fileTitle) {
   const ifr = document.createElement('iframe');
   ifr.setAttribute('aria-hidden', 'true');
   ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
   document.body.appendChild(ifr);
   const w = ifr.contentWindow;
   w.document.open(); w.document.write(html); w.document.close();
+  const oldTitle = document.title;
   let done = false;   // печать строго ОДИН раз (иначе открывались два окна принтера)
   const go = () => {
     if (done) return; done = true;
+    // Имя сохраняемого PDF браузер берёт из заголовка вкладки — временно ставим нужное
+    if (fileTitle) { try { document.title = fileTitle; } catch (e) {}
+                     try { ifr.contentDocument.title = fileTitle; } catch (e) {} }
     try { w.focus(); w.print(); } catch (e) {}
-    setTimeout(() => { try { document.body.removeChild(ifr); } catch (e) {} }, 3000);
+    setTimeout(() => {
+      try { document.title = oldTitle; } catch (e) {}
+      try { document.body.removeChild(ifr); } catch (e) {}
+    }, 3000);
   };
   ifr.onload = () => setTimeout(go, 450);
   // запасной триггер, если onload не сработал — но только если печать ещё не запущена
   setTimeout(() => { if (!done) go(); }, 900);
 }
 
-// Печать бланка сметы / накладной через браузер (идентично EXE)
-function printSmeta() { const e = load().find(x => x.id === currentId); if (e) printDoc(buildPrintHtml(e)); }
-function printInvoice() { const e = load().find(x => x.id === currentId); if (e) printDoc(buildInvoicePrintHtml(e)); }
+// Печать бланка сметы / накладной через браузер (идентично EXE); имя файла = № документа
+function printSmeta() { const e = load().find(x => x.id === currentId); if (e) printDoc(buildPrintHtml(e), 'Смета №' + (e.appeal_no || _seqNum(e))); }
+function printInvoice() { const e = load().find(x => x.id === currentId); if (e) printDoc(buildInvoicePrintHtml(e), 'Накладная №' + (e.contract_no || _seqNum(e))); }
 
 async function sendPdf(btn) {
   const est = load().find(e => e.id === currentId);
