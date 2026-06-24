@@ -11,8 +11,12 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  // HTML/навигацию тянем БЕЗ HTTP-кэша (cache:'no-store') — иначе обновления
+  // не появляются до истечения max-age GitHub Pages (частая жалоба «не обновилось»).
+  const isDoc = e.request.mode === 'navigate' || e.request.destination === 'document';
+  const req = isDoc ? new Request(e.request.url, {cache: 'no-store'}) : e.request;
   e.respondWith(
-    fetch(e.request).then(resp => {
+    fetch(req).then(resp => {
       const copy = resp.clone();
       caches.open(CACHE).then(c => c.put(e.request, copy)).catch(()=>{});
       return resp;
