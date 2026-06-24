@@ -1784,11 +1784,15 @@ function printDoc(html) {
   document.body.appendChild(ifr);
   const w = ifr.contentWindow;
   w.document.open(); w.document.write(html); w.document.close();
-  const go = () => { try { w.focus(); w.print(); } catch (e) {}
-    setTimeout(() => { try { document.body.removeChild(ifr); } catch (e) {} }, 1500); };
-  ifr.onload = () => setTimeout(go, 400);
-  // на случай если onload уже прошёл
-  if (w.document.readyState === 'complete') setTimeout(go, 400);
+  let done = false;   // печать строго ОДИН раз (иначе открывались два окна принтера)
+  const go = () => {
+    if (done) return; done = true;
+    try { w.focus(); w.print(); } catch (e) {}
+    setTimeout(() => { try { document.body.removeChild(ifr); } catch (e) {} }, 3000);
+  };
+  ifr.onload = () => setTimeout(go, 450);
+  // запасной триггер, если onload не сработал — но только если печать ещё не запущена
+  setTimeout(() => { if (!done) go(); }, 900);
 }
 
 // Печать бланка сметы / накладной через браузер (идентично EXE)
