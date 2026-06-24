@@ -1276,8 +1276,20 @@ function buildEstimateHtml(est) {
   const title = (est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета';
   const sub = [est.client_name ? `<b>${est.client_name}</b>` : '', est.date || '',
     est.appeal_no ? 'Обр. №' + est.appeal_no : ''].filter(Boolean).join(' &nbsp;·&nbsp; ');
+  // Фирменный бланк — как в canvas-PDF и в EXE: реквизиты слева, логотип справа
+  const _logoHtml = (typeof LOGO !== 'undefined' && LOGO)
+    ? `<img src="${LOGO}" style="max-height:56px;max-width:180px;object-fit:contain">` : '';
+  const _detailsHtml = (typeof COMPANY_DETAILS !== 'undefined' && COMPANY_DETAILS)
+    ? COMPANY_DETAILS.split(/\r?\n/).filter(l => l.trim())
+        .map(l => `<div>${l.trim()}</div>`).join('') : '';
+  const _companyName = (typeof COMPANY !== 'undefined' && COMPANY)
+    ? `<div style="font-weight:700;font-size:15px">${COMPANY}</div>` : '';
+  const _letterhead = (_companyName || _detailsHtml || _logoHtml)
+    ? `<div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #dee2e6;padding-bottom:12px;margin-bottom:14px">
+<div>${_companyName}<div style="color:#666;font-size:11px;margin-top:2px">${_detailsHtml}</div></div>
+<div style="flex-shrink:0;margin-left:12px">${_logoHtml}</div></div>` : '';
   return { t, dimsRows, itemRows, title, sub,
-    html: `<h2 style="margin:0 0 4px;font-size:18px">${title}</h2>
+    html: `${_letterhead}<h2 style="margin:0 0 4px;font-size:18px">${title}</h2>
 <div style="color:#666;font-size:13px;margin-bottom:14px">${sub}</div>
 ${dimsRows ? `<table style="border-collapse:collapse;margin-bottom:14px;font-size:13px;width:auto">${dimsRows}</table>` : ''}
 ${itemRows ? `<table style="border-collapse:collapse;width:100%;font-size:13px">
