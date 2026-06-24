@@ -177,6 +177,59 @@ html[data-theme="dark"] .view-table td{border-bottom-color:#2a313a}
 html[data-theme="dark"] .total-row{color:#e4e6eb}
 html[data-theme="dark"] .empty{color:#7a828c}
 html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-top:1px solid #333a44}
+
+/* ── EXE-СТИЛЬ: таблица смет + детальный просмотр (как в локальном BalconyCalc.exe) ── */
+.page-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.page-head .ph-title{font-size:20px;font-weight:600}
+.page-head .ph-sub{color:#6c757d;font-size:13px;margin-top:3px}
+.btn-success{background:#198754;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn-success:active{background:#157347}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.filter-row input[type=search]{flex:2 1 240px}
+.filter-row select{flex:1 1 180px}
+.backup-row{display:flex;gap:8px;margin-bottom:10px}
+.list-count{color:#6c757d;font-size:13px;margin:0 0 10px}
+
+.tbl-wrap{overflow-x:auto;background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl thead th{background:#f1f3f5;text-align:left;padding:10px 12px;font-weight:600;font-size:13px;color:#495057;border-bottom:2px solid #dee2e6;white-space:nowrap}
+.tbl tbody td{padding:9px 12px;border-bottom:1px solid #eef0f2;vertical-align:top}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl.rows-hover tbody tr{cursor:pointer}
+.tbl.rows-hover tbody tr:hover{background:#f6f9ff}
+.tbl .num{text-align:right;white-space:nowrap}
+.tbl .pay{font-weight:700;color:#198754;white-space:nowrap}
+.tbl.bordered td,.tbl.bordered th{border:1px solid #dee2e6}
+.tbl .cat-row td{background:#cfe2ff;font-weight:600;color:#084298}
+.tbl .sub-row td{text-align:right;font-style:italic;color:#495057}
+.tbl .sub-row td b{color:#212529}
+.btn-open{background:#fff;color:#0d6efd;border:1.5px solid #0d6efd;border-radius:7px;padding:5px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn-open:active{background:#e7f1ff}
+
+.view-grid{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.view-grid>.card{flex:1 1 280px;margin-bottom:0}
+.kv-table{width:100%;border-collapse:collapse;font-size:14px}
+.kv-table td{padding:8px 14px;border-bottom:1px solid #eef0f2}
+.kv-table tr:last-child td{border-bottom:none}
+.kv-table td:first-child{color:#6c757d}
+.kv-table td:last-child{text-align:right;font-weight:600}
+.kv-table tr.pay-row td{font-weight:700;color:#198754;font-size:16px}
+.kv-table tr.disc-row td{color:#dc3545}
+.sect-title{font-size:15px;font-weight:600;margin:0 0 8px}
+
+html[data-theme="dark"] .tbl-wrap{background:#1f242b;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+html[data-theme="dark"] .tbl thead th{background:#262c34;color:#aab2bd;border-bottom-color:#39414c}
+html[data-theme="dark"] .tbl tbody td{border-bottom-color:#2a313a}
+html[data-theme="dark"] .tbl.rows-hover tbody tr:hover{background:#243044}
+html[data-theme="dark"] .tbl.bordered td,html[data-theme="dark"] .tbl.bordered th{border-color:#39414c}
+html[data-theme="dark"] .tbl .cat-row td{background:#1d2a3a;color:#7fb0ff}
+html[data-theme="dark"] .tbl .sub-row td{color:#aab2bd}
+html[data-theme="dark"] .tbl .sub-row td b{color:#e4e6eb}
+html[data-theme="dark"] .kv-table td{border-bottom-color:#2a313a}
+html[data-theme="dark"] .kv-table td:first-child{color:#9aa3af}
+html[data-theme="dark"] .page-head .ph-sub{color:#9aa3af}
+html[data-theme="dark"] .list-count{color:#9aa3af}
+html[data-theme="dark"] .btn-open{background:#1f242b}
 </style>
 </head>
 <body>
@@ -202,25 +255,30 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
     <img class="app-logo" alt="" style="height:30px;background:#fff;border-radius:6px;padding:4px 7px;margin-right:8px;display:none">
     <h1>Сметы</h1>
     <button class="btn-nav" id="exitBtn" onclick="if(confirm('Выйти из программы?'))location.href='/logout'" style="display:none;margin-right:4px" title="Выход">⎋ Выход</button>
-    <button class="btn-nav" id="themeToggle" onclick="toggleTheme()" style="margin-right:4px" title="Тема">🌙</button>
-    <button class="btn-nav" onclick="showForm(null)">+ Новая</button>
+    <button class="btn-nav" id="themeToggle" onclick="toggleTheme()" title="Тема">🌙</button>
   </div>
   <div class="container">
-    <input type="search" id="estSearch" placeholder="🔍 Поиск: клиент, № договора, № обращения, дата" autocomplete="off" oninput="renderList()" style="margin-bottom:10px">
-    <select id="estStatusFilter" onchange="renderList()" style="margin-bottom:10px">
-      <option value="">Все статусы</option>
-      <option value="draft">Черновик</option>
-      <option value="sent">Отправлено</option>
-      <option value="contract">Договор</option>
-      <option value="done">Выполнено</option>
-      <option value="cancel">Отменена</option>
-    </select>
-    <div style="display:flex;gap:8px;margin-bottom:10px">
+    <div class="page-head">
+      <div class="ph-title">Сметы</div>
+      <button class="btn-success" onclick="showForm(null)"><span>＋</span> Новая смета</button>
+    </div>
+    <div class="filter-row">
+      <input type="search" id="estSearch" placeholder="🔍 Поиск: клиент, № договора, № обращения, дата" autocomplete="off" oninput="renderList()">
+      <select id="estStatusFilter" onchange="renderList()">
+        <option value="">Все статусы</option>
+        <option value="draft">Черновик</option>
+        <option value="sent">Отправлено</option>
+        <option value="contract">Договор</option>
+        <option value="done">Выполнено</option>
+        <option value="cancel">Отменена</option>
+      </select>
+    </div>
+    <div class="backup-row">
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="exportBackup()">💾 Сохранить копию</button>
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="document.getElementById('importFile').click()">📁 Восстановить</button>
       <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">
     </div>
-    <p id="estCount" style="color:#666;font-size:13px;margin:0 0 8px"></p>
+    <p id="estCount" class="list-count"></p>
     <div id="listContainer"></div>
   </div>
 </div>
@@ -689,7 +747,8 @@ document.getElementById('loginPass').addEventListener('keydown', e => {
 // СПИСОК СМЕТ
 // ══════════════════════════════════════════════
 function renderList() {
-  let estimates = load().sort((a,b) => b.id - a.id);
+  const all = load();
+  let estimates = all.slice().sort((a,b) => b.id - a.id);
   const total = estimates.length;
   const el = document.getElementById('listContainer');
   const countEl = document.getElementById('estCount');
@@ -698,6 +757,9 @@ function renderList() {
     el.innerHTML = '<div class="empty"><p>Смет пока нет</p><button class="btn btn-primary" onclick="showForm(null)" style="width:auto;padding:12px 28px">+ Создать первую</button></div>';
     return;
   }
+  // Порядковый № как в EXE: по дате создания (старейшая = 1), не Date.now()-id
+  const seqMap = {};
+  all.slice().sort((a,b) => a.id - b.id).forEach((e, i) => { seqMap[e.id] = i + 1; });
   const q = (document.getElementById('estSearch')?.value || '').trim().toLowerCase();
   const stf = document.getElementById('estStatusFilter')?.value || '';
   if (q) {
@@ -714,17 +776,26 @@ function renderList() {
     el.innerHTML = '<div class="empty"><p>Ничего не найдено</p></div>';
     return;
   }
-  el.innerHTML = estimates.map(e => {
-    const totals = calcTotals(e.items, e.discount_pct, e.discount_rub, e.dims);
-    return `<div class="est-card" onclick="showView(${e.id})">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div class="name">${e.client_name || 'Без имени'}</div>
-        ${statusBadge(e.status)}
-      </div>
-      <div class="meta">${e.date || ''}${e.contract_no ? ' · Дог. №'+e.contract_no : ''}${e.appeal_no ? ' · Обр. №'+e.appeal_no : ''}</div>
-      <div class="total">${fmtRub(totals.final)}</div>
-    </div>`;
+  const rows = estimates.map(e => {
+    const t = calcTotals(e.items, e.discount_pct, e.discount_rub, e.dims);
+    return `<tr onclick="showView(${e.id})">
+      <td>${seqMap[e.id] || ''}</td>
+      <td>${statusBadge(e.status)}</td>
+      <td>${e.contract_no || ''}</td>
+      <td>${e.client_name || ''}</td>
+      <td style="white-space:nowrap">${e.date || ''}</td>
+      <td class="num">${fmtRub(t.client)}</td>
+      <td class="num pay">${fmtRub(t.final)}</td>
+      <td><button class="btn-open" onclick="event.stopPropagation();showView(${e.id})">Открыть</button></td>
+    </tr>`;
   }).join('');
+  el.innerHTML = `<div class="tbl-wrap"><table class="tbl rows-hover">
+    <thead><tr>
+      <th>#</th><th>Статус</th><th>Договор</th><th>Клиент</th><th>Дата</th>
+      <th class="num">Итого клиенту</th><th class="num">К оплате</th><th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
 }
 
 // ══════════════════════════════════════════════
@@ -1199,74 +1270,92 @@ function saveEstimate() {
 // ══════════════════════════════════════════════
 function renderView(est) {
   document.getElementById('viewTitle').textContent =
-    (est.appeal_no || est.contract_no) ? 'Смета №'+(est.appeal_no || est.contract_no) : 'Смета';
+    (est.contract_no || est.appeal_no) ? 'Смета №'+(est.contract_no || est.appeal_no) : 'Смета';
 
   const d = est.dims || {};
   const t = calcTotals(est.items, est.discount_pct, est.discount_rub, d);
 
-  const dimsHtml = [
-    ['Длина',     d.A, 'м'], ['Ширина',    d.B, 'м'],
-    ['Перила',    d.D, 'м'], ['Высота',    d.C, 'м'],
-    ['Выс. ББ',   d.E, 'м'], ['Шир. ББ',   d.K, 'м'],
-    ['Подъём',    d.L, 'м'],
-  ].filter(r => r[1]).map(r => `<tr><td style="color:#666">${r[0]}</td><td><b>${r[1]}</b> ${r[2]}</td></tr>`).join('');
+  // Параметры балкона — метки как в EXE
+  const dimDefs = [
+    ['Длина', d.A], ['Ширина', d.B], ['Высота перил', d.D],
+    ['Высота балкона', d.C], ['Высота балк. блока', d.E], ['Ширина балк. блока', d.K],
+  ];
+  if (d.L) dimDefs.push(['Подъём кровли', d.L]);
+  if (d.M || d.N || d.P) {
+    dimDefs.push(['Вынос вперёд', d.M || 0], ['Вынос влево', d.N || 0], ['Вынос вправо', d.P || 0]);
+  }
+  const dimsHtml = dimDefs
+    .filter(r => r[1] != null && r[1] !== '')
+    .map(r => `<tr><td>${r[0]}</td><td>${r[1]} м</td></tr>`).join('');
 
+  // Итоги
+  let totalsHtml = `<tr><td>Стоимость клиенту</td><td>${fmtRub(t.client)}</td></tr>`;
+  if (t.discAmt > 0) totalsHtml += `<tr class="disc-row"><td>Скидка</td><td>−${fmtRub(t.discAmt)}</td></tr>`;
+  totalsHtml += `<tr class="pay-row"><td>К оплате</td><td>${fmtRub(t.final)}</td></tr>`;
+
+  // Состав работ — полная таблица с категориями и подытогами (как в EXE)
   const _groups = groupItemsByCat(est.items, d);
   const _multiCat = _groups.length > 1;
+  let _idx = 0;
   const itemsHtml = _groups.map(g => {
+    const head = `<tr class="cat-row"><td colspan="6">${g.cat}</td></tr>`;
     const rows = g.rows.map(({ wi, it, tot }) => {
+      _idx++;
       const colorParts = [it.color, it.colorB, it.colorC].filter(Boolean);
-      const colorNote = colorParts.length ? ` <span style="color:#888;font-size:12px">(${colorParts.join(' / ')})</span>` : '';
-      return `<tr><td>${wi.name}${colorNote}</td><td style="text-align:center">${it.qty} ${wi.unit}</td><td style="text-align:right;font-weight:600">${fmtRub(tot)}</td></tr>`;
+      const colorNote = colorParts.length ? `<br><span style="color:#888;font-size:11px">${colorParts.join(' / ')}</span>` : '';
+      const per = it.qty ? tot / it.qty : tot;
+      return `<tr>
+        <td>${_idx}</td>
+        <td>${wi.name}${colorNote}</td>
+        <td>${wi.unit}</td>
+        <td>${it.qty}</td>
+        <td class="num">${fmtRub(per)}</td>
+        <td class="num pay">${fmtRub(tot)}</td>
+      </tr>`;
     }).join('');
-    const head = `<tr><td colspan="3" style="background:#eef4ff;font-weight:700;font-size:12px;color:#0d6efd;padding:6px 8px">${g.cat}</td></tr>`;
-    const sub = _multiCat ? `<tr><td colspan="2" style="text-align:right;color:#666;font-size:12px;padding:3px 8px">ИТОГО</td><td style="text-align:right;font-weight:700;font-size:12px;padding:3px 8px">${fmtRub(g.subtotal)}</td></tr>` : '';
+    const sub = _multiCat ? `<tr class="sub-row"><td colspan="5">ИТОГО:</td><td class="num"><b>${fmtRub(g.subtotal)}</b></td></tr>` : '';
     return head + rows + sub;
   }).join('');
 
+  const title = (est.contract_no || est.appeal_no) ? 'Смета № ' + (est.contract_no || est.appeal_no) : 'Смета';
+
   document.getElementById('viewContainer').innerHTML = `
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-      <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="sendPdf(this)">📥 Скачать PDF</button>
-      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="editCurrent()">✏️ Редактировать</button>
-      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="duplicateEst(${est.id})">📋 Копировать</button>
-      <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="sendInvoice(this)">📄 Накладная</button>
-    </div>
-    <div class="card">
-      <div class="card-header">Клиент</div>
-      <div class="card-body">
-        <b style="font-size:17px">${est.client_name || 'Не указан'}</b> ${statusBadge(est.status)}
-        <div style="color:#666;margin-top:4px;font-size:13px">
-          ${est.date || ''}
-          ${est.contract_no ? ' · Договор №'+est.contract_no : ''}
-          ${est.appeal_no   ? ' · Обращение №'+est.appeal_no : ''}
+    <div class="page-head">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span class="ph-title">${title}</span>${statusBadge(est.status)}
         </div>
-        ${dimsHtml ? `<table style="margin-top:10px;font-size:13px;border-collapse:collapse;width:100%">${dimsHtml}</table>` : ''}
+        <div class="ph-sub">${est.client_name || 'Не указан'} — ${est.date || ''}${est.appeal_no ? ' · Обращение № '+est.appeal_no : ''}</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="editCurrent()">✏️ Редактировать</button>
+        <button class="btn btn-outline btn-sm" onclick="duplicateEst(${est.id})">📋 Копировать</button>
+        <button class="btn btn-primary btn-sm" onclick="sendPdf(this)">📥 Скачать PDF</button>
+        <button class="btn btn-outline btn-sm" onclick="sendInvoice(this)">📄 Накладная</button>
+      </div>
+    </div>
+
+    <div class="view-grid">
+      <div class="card">
+        <div class="card-header">Параметры балкона</div>
+        <div class="card-body" style="padding:0"><table class="kv-table">${dimsHtml}</table></div>
+      </div>
+      <div class="card">
+        <div class="card-header">Итоги</div>
+        <div class="card-body" style="padding:0"><table class="kv-table">${totalsHtml}</table></div>
       </div>
     </div>
 
     ${est.items.length ? `
-    <div class="card">
-      <div class="card-header">Состав работ</div>
-      <div style="overflow-x:auto">
-        <table class="view-table">
-          <thead><tr><th>Работа</th><th>Кол-во</th><th style="text-align:right">Сумма</th></tr></thead>
-          <tbody>${itemsHtml}</tbody>
-        </table>
-      </div>
-    </div>` : ''}
+    <div class="sect-title">Состав работ</div>
+    <div class="tbl-wrap"><table class="tbl bordered">
+      <thead><tr><th>#</th><th>Наименование</th><th>Ед.</th><th>Кол-во</th><th class="num">Цена/ед.</th><th class="num">Итого</th></tr></thead>
+      <tbody>${itemsHtml}</tbody>
+    </table></div>` : ''}
 
-    <div class="card">
-      <div class="card-header">Итого</div>
-      <div class="card-body">
-        <div class="total-row"><span>Стоимость клиенту:</span><span>${fmtRub(t.client)}</span></div>
-        ${t.discAmt > 0 ? `<div class="total-row disc"><span>Скидка:</span><span>−${fmtRub(t.discAmt)}</span></div>` : ''}
-        <div class="total-row big"><span>К оплате:</span><span>${fmtRub(t.final)}</span></div>
-      </div>
-    </div>
+    ${est.notes ? `<p style="color:#6c757d;font-size:13px;margin-bottom:14px">Примечание: ${est.notes}</p>` : ''}
 
-    ${est.notes ? `<div class="card"><div class="card-header">Примечание</div><div class="card-body" style="color:#555">${est.notes}</div></div>` : ''}
-
-    <button class="btn btn-danger" style="margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
+    <button class="btn btn-danger btn-sm" style="width:auto;margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
   `;
 }
 
