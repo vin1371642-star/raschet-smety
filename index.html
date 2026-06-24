@@ -179,6 +179,9 @@ html[data-theme="dark"] .empty{color:#7a828c}
 html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-top:1px solid #333a44}
 
 /* ── EXE-СТИЛЬ: таблица смет + детальный просмотр (как в локальном BalconyCalc.exe) ── */
+/* Адаптив: телефон (<768px) — карточки; компьютер (>=768px) — таблица, как в EXE */
+@media (max-width:767px){ .only-desktop{display:none!important} }
+@media (min-width:768px){ .only-mobile{display:none!important} }
 .page-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .page-head .ph-title{font-size:20px;font-weight:600}
 .page-head .ph-sub{color:#6c757d;font-size:13px;margin-top:3px}
@@ -255,10 +258,11 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
     <img class="app-logo" alt="" style="height:30px;background:#fff;border-radius:6px;padding:4px 7px;margin-right:8px;display:none">
     <h1>Сметы</h1>
     <button class="btn-nav" id="exitBtn" onclick="if(confirm('Выйти из программы?'))location.href='/logout'" style="display:none;margin-right:4px" title="Выход">⎋ Выход</button>
-    <button class="btn-nav" id="themeToggle" onclick="toggleTheme()" title="Тема">🌙</button>
+    <button class="btn-nav" id="themeToggle" onclick="toggleTheme()" style="margin-right:4px" title="Тема">🌙</button>
+    <button class="btn-nav only-mobile" onclick="showForm(null)">+ Новая</button>
   </div>
   <div class="container">
-    <div class="page-head">
+    <div class="page-head only-desktop">
       <div class="ph-title">Сметы</div>
       <button class="btn-success" onclick="showForm(null)"><span>＋</span> Новая смета</button>
     </div>
@@ -776,6 +780,7 @@ function renderList() {
     el.innerHTML = '<div class="empty"><p>Ничего не найдено</p></div>';
     return;
   }
+  // Компьютер — таблица (как в EXE)
   const rows = estimates.map(e => {
     const t = calcTotals(e.items, e.discount_pct, e.discount_rub, e.dims);
     return `<tr onclick="showView(${e.id})">
@@ -789,13 +794,26 @@ function renderList() {
       <td><button class="btn-open" onclick="event.stopPropagation();showView(${e.id})">Открыть</button></td>
     </tr>`;
   }).join('');
-  el.innerHTML = `<div class="tbl-wrap"><table class="tbl rows-hover">
+  // Телефон — карточки (как было)
+  const cards = estimates.map(e => {
+    const t = calcTotals(e.items, e.discount_pct, e.discount_rub, e.dims);
+    return `<div class="est-card" onclick="showView(${e.id})">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div class="name">${e.client_name || 'Без имени'}</div>
+        ${statusBadge(e.status)}
+      </div>
+      <div class="meta">${e.date || ''}${e.contract_no ? ' · Дог. №'+e.contract_no : ''}${e.appeal_no ? ' · Обр. №'+e.appeal_no : ''}</div>
+      <div class="total">${fmtRub(t.final)}</div>
+    </div>`;
+  }).join('');
+  el.innerHTML = `<div class="only-desktop"><div class="tbl-wrap"><table class="tbl rows-hover">
     <thead><tr>
       <th>#</th><th>Статус</th><th>Договор</th><th>Клиент</th><th>Дата</th>
       <th class="num">Итого клиенту</th><th class="num">К оплате</th><th></th>
     </tr></thead>
     <tbody>${rows}</tbody>
-  </table></div>`;
+  </table></div></div>
+  <div class="only-mobile">${cards}</div>`;
 }
 
 // ══════════════════════════════════════════════
@@ -1319,43 +1337,108 @@ function renderView(est) {
 
   const title = (est.contract_no || est.appeal_no) ? 'Смета № ' + (est.contract_no || est.appeal_no) : 'Смета';
 
+  // --- Телефон: карточный вид (как было) ---
+  const dimsHtmlCard = [
+    ['Длина', d.A, 'м'], ['Ширина', d.B, 'м'],
+    ['Перила', d.D, 'м'], ['Высота', d.C, 'м'],
+    ['Выс. ББ', d.E, 'м'], ['Шир. ББ', d.K, 'м'],
+    ['Подъём', d.L, 'м'],
+  ].filter(r => r[1]).map(r => `<tr><td style="color:#666">${r[0]}</td><td><b>${r[1]}</b> ${r[2]}</td></tr>`).join('');
+  const itemsHtmlCard = _groups.map(g => {
+    const rows = g.rows.map(({ wi, it, tot }) => {
+      const colorParts = [it.color, it.colorB, it.colorC].filter(Boolean);
+      const colorNote = colorParts.length ? ` <span style="color:#888;font-size:12px">(${colorParts.join(' / ')})</span>` : '';
+      return `<tr><td>${wi.name}${colorNote}</td><td style="text-align:center">${it.qty} ${wi.unit}</td><td style="text-align:right;font-weight:600">${fmtRub(tot)}</td></tr>`;
+    }).join('');
+    const head = `<tr><td colspan="3" style="background:#eef4ff;font-weight:700;font-size:12px;color:#0d6efd;padding:6px 8px">${g.cat}</td></tr>`;
+    const sub = _multiCat ? `<tr><td colspan="2" style="text-align:right;color:#666;font-size:12px;padding:3px 8px">ИТОГО</td><td style="text-align:right;font-weight:700;font-size:12px;padding:3px 8px">${fmtRub(g.subtotal)}</td></tr>` : '';
+    return head + rows + sub;
+  }).join('');
+
   document.getElementById('viewContainer').innerHTML = `
-    <div class="page-head">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <span class="ph-title">${title}</span>${statusBadge(est.status)}
+    <!-- ═══ Компьютер: таблица (как в EXE) ═══ -->
+    <div class="only-desktop">
+      <div class="page-head">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="ph-title">${title}</span>${statusBadge(est.status)}
+          </div>
+          <div class="ph-sub">${est.client_name || 'Не указан'} — ${est.date || ''}${est.appeal_no ? ' · Обращение № '+est.appeal_no : ''}</div>
         </div>
-        <div class="ph-sub">${est.client_name || 'Не указан'} — ${est.date || ''}${est.appeal_no ? ' · Обращение № '+est.appeal_no : ''}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="btn btn-outline btn-sm" onclick="editCurrent()">✏️ Редактировать</button>
+          <button class="btn btn-outline btn-sm" onclick="duplicateEst(${est.id})">📋 Копировать</button>
+          <button class="btn btn-primary btn-sm" onclick="sendPdf(this)">📥 Скачать PDF</button>
+          <button class="btn btn-outline btn-sm" onclick="sendInvoice(this)">📄 Накладная</button>
+        </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <button class="btn btn-outline btn-sm" onclick="editCurrent()">✏️ Редактировать</button>
-        <button class="btn btn-outline btn-sm" onclick="duplicateEst(${est.id})">📋 Копировать</button>
-        <button class="btn btn-primary btn-sm" onclick="sendPdf(this)">📥 Скачать PDF</button>
-        <button class="btn btn-outline btn-sm" onclick="sendInvoice(this)">📄 Накладная</button>
+
+      <div class="view-grid">
+        <div class="card">
+          <div class="card-header">Параметры балкона</div>
+          <div class="card-body" style="padding:0"><table class="kv-table">${dimsHtml}</table></div>
+        </div>
+        <div class="card">
+          <div class="card-header">Итоги</div>
+          <div class="card-body" style="padding:0"><table class="kv-table">${totalsHtml}</table></div>
+        </div>
       </div>
+
+      ${est.items.length ? `
+      <div class="sect-title">Состав работ</div>
+      <div class="tbl-wrap"><table class="tbl bordered">
+        <thead><tr><th>#</th><th>Наименование</th><th>Ед.</th><th>Кол-во</th><th class="num">Цена/ед.</th><th class="num">Итого</th></tr></thead>
+        <tbody>${itemsHtml}</tbody>
+      </table></div>` : ''}
+
+      ${est.notes ? `<p style="color:#6c757d;font-size:13px;margin-bottom:14px">Примечание: ${est.notes}</p>` : ''}
+
+      <button class="btn btn-danger btn-sm" style="width:auto;margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
     </div>
 
-    <div class="view-grid">
-      <div class="card">
-        <div class="card-header">Параметры балкона</div>
-        <div class="card-body" style="padding:0"><table class="kv-table">${dimsHtml}</table></div>
+    <!-- ═══ Телефон: карточки (как было) ═══ -->
+    <div class="only-mobile">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="sendPdf(this)">📥 Скачать PDF</button>
+        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="editCurrent()">✏️ Редактировать</button>
+        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="duplicateEst(${est.id})">📋 Копировать</button>
+        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="sendInvoice(this)">📄 Накладная</button>
       </div>
       <div class="card">
-        <div class="card-header">Итоги</div>
-        <div class="card-body" style="padding:0"><table class="kv-table">${totalsHtml}</table></div>
+        <div class="card-header">Клиент</div>
+        <div class="card-body">
+          <b style="font-size:17px">${est.client_name || 'Не указан'}</b> ${statusBadge(est.status)}
+          <div style="color:#666;margin-top:4px;font-size:13px">
+            ${est.date || ''}${est.contract_no ? ' · Договор №'+est.contract_no : ''}${est.appeal_no ? ' · Обращение №'+est.appeal_no : ''}
+          </div>
+          ${dimsHtmlCard ? `<table style="margin-top:10px;font-size:13px;border-collapse:collapse;width:100%">${dimsHtmlCard}</table>` : ''}
+        </div>
       </div>
+
+      ${est.items.length ? `
+      <div class="card">
+        <div class="card-header">Состав работ</div>
+        <div style="overflow-x:auto">
+          <table class="view-table">
+            <thead><tr><th>Работа</th><th>Кол-во</th><th style="text-align:right">Сумма</th></tr></thead>
+            <tbody>${itemsHtmlCard}</tbody>
+          </table>
+        </div>
+      </div>` : ''}
+
+      <div class="card">
+        <div class="card-header">Итого</div>
+        <div class="card-body">
+          <div class="total-row"><span>Стоимость клиенту:</span><span>${fmtRub(t.client)}</span></div>
+          ${t.discAmt > 0 ? `<div class="total-row disc"><span>Скидка:</span><span>−${fmtRub(t.discAmt)}</span></div>` : ''}
+          <div class="total-row big"><span>К оплате:</span><span>${fmtRub(t.final)}</span></div>
+        </div>
+      </div>
+
+      ${est.notes ? `<div class="card"><div class="card-header">Примечание</div><div class="card-body" style="color:#555">${est.notes}</div></div>` : ''}
+
+      <button class="btn btn-danger" style="margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
     </div>
-
-    ${est.items.length ? `
-    <div class="sect-title">Состав работ</div>
-    <div class="tbl-wrap"><table class="tbl bordered">
-      <thead><tr><th>#</th><th>Наименование</th><th>Ед.</th><th>Кол-во</th><th class="num">Цена/ед.</th><th class="num">Итого</th></tr></thead>
-      <tbody>${itemsHtml}</tbody>
-    </table></div>` : ''}
-
-    ${est.notes ? `<p style="color:#6c757d;font-size:13px;margin-bottom:14px">Примечание: ${est.notes}</p>` : ''}
-
-    <button class="btn btn-danger btn-sm" style="width:auto;margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
   `;
 }
 
