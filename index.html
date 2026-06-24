@@ -1625,9 +1625,13 @@ function showPdf(mode) {
     : ((est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета');
   const tEl = document.getElementById('pdfTitle');
   if (tEl) tEl.textContent = (_pdfMode === 'invoice') ? 'Накладная' : 'Смета';
-  document.getElementById('pdfContainer').innerHTML = _pdfPages.map(c =>
-    `<img src="${c.toDataURL('image/jpeg', 0.9)}" alt="PDF" style="width:100%;display:block;margin:0 auto 12px;box-shadow:0 1px 8px rgba(0,0,0,.3);background:#fff">`
-  ).join('');
+  // Вставляем сами canvas-страницы (надёжнее toDataURL — не падает на телефоне)
+  const cont = document.getElementById('pdfContainer');
+  cont.innerHTML = '';
+  _pdfPages.forEach(c => {
+    c.style.cssText = 'width:100%;height:auto;display:block;margin:0 auto 12px;box-shadow:0 1px 8px rgba(0,0,0,.3);background:#fff';
+    cont.appendChild(c);
+  });
   showScreen('screen-pdf');
 }
 
