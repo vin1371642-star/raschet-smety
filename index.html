@@ -205,7 +205,7 @@ html[data-theme="dark"] .btn-outline-secondary{background:#1f242b;color:#aab2bd;
 html[data-theme="dark"] .btn-outline-dark{background:#1f242b;color:#e4e6eb;border-color:#aab2bd}
 
 /* Форма (десктоп) как в EXE: верхняя зелёная сводка + поля в строку */
-.form-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border-bottom:3px solid #198754;padding:12px 14px;margin:0 0 14px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.form-topbar{position:sticky;top:56px;z-index:90;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border-bottom:3px solid #198754;padding:12px 14px;margin:0 0 14px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .ftb-totals{display:flex;gap:22px;align-items:baseline;font-size:15px;color:#212529;flex-wrap:wrap}
 .ftb-totals b{font-weight:700}
 .ftb-totals .ftb-final{font-size:17px;font-weight:700;color:#198754}
@@ -1173,6 +1173,9 @@ function refreshColorBadges() {
 }
 
 function toggleWI(e, id) {
+  // На компьютере выбор только по чек-боксу (как в EXE), не по всей строке.
+  // На телефоне оставляем выбор кликом по строке (удобнее пальцем).
+  if (window.matchMedia && window.matchMedia('(min-width:768px)').matches) return;
   const cb = document.getElementById('wic' + id);
   if (!cb) return;
   cb.checked = !cb.checked;
@@ -1479,6 +1482,8 @@ function renderView(est) {
       </table></div>` : ''}
 
       ${est.notes ? `<p style="color:#6c757d;font-size:13px;margin-bottom:14px">Примечание: ${est.notes}</p>` : ''}
+
+      <button class="btn btn-danger btn-sm" style="width:auto;margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
     </div>
 
     <!-- ═══ Телефон: карточки (как было) ═══ -->
@@ -1757,11 +1762,8 @@ function printDoc(html) {
 async function sendPdf(btn) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
-  // Десктоп: печать HTML-бланка браузером (идентично EXE). Телефон: PDF + «Поделиться».
-  if (window.matchMedia && window.matchMedia('(min-width:768px)').matches) {
-    printDoc(buildPrintHtml(est));
-    return;
-  }
+  // Десктоп: скачать PDF файлом (без окна печати, как EXE открывает/сохраняет PDF).
+  // Телефон: PDF + системное «Поделиться» (в мессенджер).
   const title = (est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета';
   const pdfBtn = btn || document.querySelector('#screen-pdf .btn-nav');
   const origTxt = pdfBtn ? pdfBtn.textContent : '';
@@ -1842,11 +1844,6 @@ ${letterhead}
 async function sendInvoice(btn) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
-  // Десктоп: печать HTML-бланка браузером (идентично EXE)
-  if (window.matchMedia && window.matchMedia('(min-width:768px)').matches) {
-    printDoc(buildInvoicePrintHtml(est));
-    return;
-  }
   const title = 'Накладная №' + (est.contract_no || est.id);
   const origTxt = btn ? btn.textContent : '';
   if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
