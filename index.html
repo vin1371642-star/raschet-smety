@@ -1733,13 +1733,6 @@ ${letterhead}
 </table>
 ${est.notes ? `<p class="footer">Примечание: ${esc(est.notes)}</p>` : ''}
 <div class="sig-block"><div class="sig-line">Исполнитель: ____________________</div><div class="sig-line">Заказчик: ____________________</div></div>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW',e);});
-  });
-}
-</script>
 </body></html>`;
 }
 
@@ -2204,6 +2197,13 @@ let LOGO_IMG = null;
     renderList();
   }
 })();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW',e);});
+  });
+}
 </script>
 </body>
 </html>
