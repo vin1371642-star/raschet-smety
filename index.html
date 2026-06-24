@@ -772,7 +772,7 @@ function showForm(est) {
   currentId = est ? est.id : null;
   document.getElementById('formTitle').textContent = est ? 'Редактировать' : 'Новая смета';
   const _ftd = document.getElementById('formTitleDesk');
-  if (_ftd) _ftd.textContent = est ? ('Смета № ' + (est.contract_no || '')) : 'Новая смета';
+  if (_ftd) _ftd.textContent = est ? ('Смета № ' + (est.appeal_no || '')) : 'Новая смета';
 
   // Заполняем поля
   document.getElementById('fAppeal').value   = est?.appeal_no   || '';
@@ -1377,8 +1377,7 @@ function saveEstimate() {
 // ПРОСМОТР
 // ══════════════════════════════════════════════
 function renderView(est) {
-  document.getElementById('viewTitle').textContent =
-    (est.contract_no || est.appeal_no) ? 'Смета №'+(est.contract_no || est.appeal_no) : 'Смета';
+  document.getElementById('viewTitle').textContent = 'Смета № ' + (est.appeal_no || _seqNum(est));
 
   const d = est.dims || {};
   const t = calcTotals(est.items, est.discount_pct, est.discount_rub, d);
@@ -1428,7 +1427,7 @@ function renderView(est) {
   // Номер как в EXE: «Смета № <договор или порядковый>» (всегда с номером)
   const _allV = load();
   const _seqV = {}; _allV.slice().sort((a,b)=>a.id-b.id).forEach((e,i)=>{ _seqV[e.id]=i+1; });
-  const title = 'Смета № ' + (est.contract_no || _seqV[est.id] || '');
+  const title = 'Смета № ' + (est.appeal_no || _seqV[est.id] || '');
 
   // --- Телефон: карточный вид (как было) ---
   const dimsHtmlCard = [
@@ -1626,8 +1625,8 @@ function showPdf(mode) {
   _pdfMode = mode || 'client';
   _pdfPages = drawEstimate(est, _pdfMode);
   _pdfTitle = (_pdfMode === 'invoice')
-    ? 'Накладная №' + (est.contract_no || est.id)
-    : ((est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета');
+    ? 'Накладная №' + (est.contract_no || _seqNum(est))
+    : 'Смета №' + (est.appeal_no || _seqNum(est));
   const tEl = document.getElementById('pdfTitle');
   if (tEl) tEl.textContent = (_pdfMode === 'invoice') ? 'Накладная' : 'Смета';
   // Вставляем сами canvas-страницы (надёжнее toDataURL — не падает на телефоне)
@@ -1897,8 +1896,8 @@ function drawEstimate(est, mode) {
   const PX=Math.round(42.5*S),PY=Math.round(51*S),CW=W-PX*2;   // поля 15мм / 18мм как @page EXE
   const FF="Arial,'Helvetica Neue',sans-serif";
   const F9=`${9*S}px ${FF}`,F9b=`bold ${9*S}px ${FF}`,F9i=`italic ${9*S}px ${FF}`,
-        F85=`${8.5*S}px ${FF}`,F13b=`bold ${13*S}px ${FF}`,F14b=`bold ${14*S}px ${FF}`,
-        F11b=`bold ${11*S}px ${FF}`;
+        F85=`${8.5*S}px ${FF}`,F8=`${8*S}px ${FF}`,F8b=`bold ${8*S}px ${FF}`,
+        F13b=`bold ${13*S}px ${FF}`,F14b=`bold ${14*S}px ${FF}`,F11b=`bold ${11*S}px ${FF}`;
   const pages=[];let canvas,ctx,y;
   function pg(){canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);y=PY;pages.push(canvas);}
   function chk(n){if(y+n>H-PY)pg();}
@@ -1934,18 +1933,19 @@ function drawEstimate(est, mode) {
   function kv(label,value,bold){ctx.font=F9;const lw=ctx.measureText(label).width;tx(label,PX,y+8*S,F9,'#555');tx(value,PX+lw+3*S,y+8*S,bold?F9b:F9,'#111');y+=13*S;}
 
   if(isInvoice){
-    // ── НАКЛАДНАЯ: перечень ВСЕХ материалов по ЦЕНЕ КЛИЕНТА (формат как «Закупка») ──
-    const num=est.contract_no||est.id;
-    tx('НАКЛАДНАЯ № '+num,PX,y+11*S,F14b);y+=18*S;
+    // ── НАКЛАДНАЯ: перечень материалов по ЦЕНЕ КЛИЕНТА, шрифт/вёрстка 1:1 с EXE invoice.html ──
+    const num=est.contract_no||_seqNum(est);
+    tx('«_____» __________________ 20____ г.',PX+CW,y-2*S,F9,'#555','right');  // дата — вверху, без подписи
+    tx('НАКЛАДНАЯ № '+num,PX,y+11*S,F13b);y+=18*S;
     kv('Клиент:  ',est.client_name||'',true);
     kv('Балкон:  ',`Д ${d.A||0}м × Ш ${d.B||0}м, выс.перил ${d.D||0}м, выс.балкона ${d.C||0}м`);
     y+=6*S;
     // 8 колонок как в «Закупке»: № Наименование Ед Шт Длина Всего Цена/ед Стоимость
     const ifr=[0,0.04,0.30,0.37,0.45,0.56,0.67,0.835,1],IX=ifr.map(f=>PX+f*CW);
-    function icell(x1,x2,h,bg){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle='#999';ctx.lineWidth=0.6*S;ctx.strokeRect(x1,y,x2-x1,h);}
-    function ihdr(tt){chk(RH);ctx.fillStyle='#f0f0f0';ctx.fillRect(IX[0],y,CW,RH);ctx.strokeStyle='#999';ctx.lineWidth=0.6*S;ctx.strokeRect(IX[0],y,CW,RH);tx(tt,IX[0]+PAD,y+TY,F9b,'#111');y+=RH;}
+    function icell(x1,x2,h,bg){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle='#888';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
+    function ihdr(tt){chk(RH);ctx.fillStyle='#f0f0f0';ctx.fillRect(IX[0],y,CW,RH);ctx.strokeStyle='#888';ctx.lineWidth=0.5*S;ctx.strokeRect(IX[0],y,CW,RH);tx(tt,IX[0]+PAD,y+TY,F8b,'#111');y+=RH;}
     chk(RH);const HD=['№','Наименование','Ед.','Шт.','Длина, м','Всего','Цена/ед., руб.','Стоимость, руб.'],HA=['left','left','left','right','right','right','right','right'];
-    for(let i=0;i<8;i++){icell(IX[i],IX[i+1],RH,'#dddde8');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F85,'#111',HA[i]);}y+=RH;
+    for(let i=0;i<8;i++){icell(IX[i],IX[i+1],RH,'#ddddee');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F8,'#111',HA[i]);}y+=RH;
     let idx=0,grand=0;
     for(const it of (est.items||[])){
       const wi=WORK_ITEMS.find(w=>w.id===it.id);if(!wi)continue;
@@ -1964,25 +1964,32 @@ function drawEstimate(est, mode) {
       }
       for(const r of list){
         idx++;grand=round2(grand+r.total);
-        const[n1,n2]=wrap(r.name,F9,IX[2]-IX[1]-2*PAD),h=n2?RH*2:RH;chk(h);
+        const[n1,n2]=wrap(r.name,F8,IX[2]-IX[1]-2*PAD),h=n2?RH*2:RH;chk(h);
         for(let i=0;i<8;i++)icell(IX[i],IX[i+1],h);
-        tx(String(idx),IX[0]+PAD,y+TY,F9);tx(n1,IX[1]+PAD,y+TY,F9);if(n2)tx(n2,IX[1]+PAD,y+TY+11*S,F9);
-        tx(r.unit||'',IX[2]+PAD,y+TY,F9);
-        tx(r.pcs!=null?String(r.pcs):'',IX[4]-PAD,y+TY,F9,'#111','right');
-        tx(r.len!=null?String(r.len):'',IX[5]-PAD,y+TY,F9,'#111','right');
-        tx(String(r.qty),IX[6]-PAD,y+TY,F9,'#111','right');
-        tx(fmtRub(r.price),IX[7]-PAD,y+TY,F9,'#111','right');
-        tx(fmtRub(r.total),IX[8]-PAD,y+TY,F9,'#111','right');
+        tx(String(idx),IX[0]+PAD,y+TY,F8);tx(n1,IX[1]+PAD,y+TY,F8);if(n2)tx(n2,IX[1]+PAD,y+TY+10*S,F8);
+        tx(r.unit||'',IX[2]+PAD,y+TY,F8);
+        tx(r.pcs!=null?String(r.pcs):'',IX[4]-PAD,y+TY,F8,'#111','right');
+        tx(r.len!=null?String(r.len):'',IX[5]-PAD,y+TY,F8,'#111','right');
+        tx(String(r.qty),IX[6]-PAD,y+TY,F8,'#111','right');
+        tx(fmtRub(r.price),IX[7]-PAD,y+TY,F8,'#111','right');
+        tx(fmtRub(r.total),IX[8]-PAD,y+TY,F8,'#111','right');
         y+=h;
       }
     }
-    chk(RH);icell(IX[0],IX[7],RH,'#eeeef8');icell(IX[7],IX[8],RH,'#eeeef8');
-    tx('ИТОГО:',IX[7]-PAD,y+TY,F9b,'#111','right');tx(fmtRub(grand),IX[8]-PAD,y+TY,F9b,'#111','right');y+=RH;
+    chk(RH);icell(IX[0],IX[7],RH,'#eeeeff');icell(IX[7],IX[8],RH,'#eeeeff');
+    tx('ИТОГО:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(grand),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
+    // Подписи продавца и покупателя
+    y+=22*S;chk(30*S);
+    tx('Продавец: ______________________ / __________',PX,y+9*S,F9,'#333');
+    tx('Покупатель: _____________________ / __________',PX+CW*0.52,y+9*S,F9,'#333');
+    y+=8*S;
+    tx('(подпись / расшифровка)',PX,y+8*S,F85,'#888');
+    tx('(подпись / расшифровка)',PX+CW*0.52,y+8*S,F85,'#888');
     return pages;
   }
 
   // ── СМЕТА ──
-  const num=est.appeal_no||est.contract_no||est.id;
+  const num=est.appeal_no||_seqNum(est);
   tx('СМЕТА № '+num,PX,y+11*S,F14b);y+=20*S;
   kv('Клиент:  ',est.client_name||'',true);
   kv('Дата:  ',est.date||'');
