@@ -1,4 +1,4 @@
-const CACHE = 'smeta-be8cfa209e5b';
+const CACHE = 'smeta-5be2da07ed03';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', e => {
   self.skipWaiting();

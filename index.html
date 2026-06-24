@@ -1910,9 +1910,9 @@ function drawEstimate(est, mode) {
 
   // колонки таблицы: № Наименование Ед Кол-во Цена Стоимость
   const fr=[0,0.05,0.55,0.63,0.72,0.86,1],X=fr.map(f=>PX+f*CW),PAD=4*S,RH=15*S,TY=10.5*S;
-  function cell(x1,x2,h,bg){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle='#999';ctx.lineWidth=0.6*S;ctx.strokeRect(x1,y,x2-x1,h);}
+  function cell(x1,x2,h,bg,bc){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle=bc||'#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
   // строка из 6 ячеек; cells[i]={t,align,color} или null
-  function trow(cells,o){o=o||{};const f=o.font||F9,h=o.h||RH;chk(h);for(let i=0;i<6;i++){cell(X[i],X[i+1],h,o.bg);const c=cells[i];if(!c||c.t==null||c.t==='')continue;const al=c.align||'left';let xx=X[i]+PAD;if(al==='right')xx=X[i+1]-PAD;if(al==='center')xx=(X[i]+X[i+1])/2;tx(c.t,xx,y+TY,c.font||f,c.color||'#111',al);}y+=h;}
+  function trow(cells,o){o=o||{};const f=o.font||F9,h=o.h||RH;chk(h);for(let i=0;i<6;i++){cell(X[i],X[i+1],h,o.bg,o.bc);const c=cells[i];if(!c||c.t==null||c.t==='')continue;const al=c.align||'left';let xx=X[i]+PAD;if(al==='right')xx=X[i+1]-PAD;if(al==='center')xx=(X[i]+X[i+1])/2;tx(c.t,xx,y+TY,c.font||f,c.color||'#111',al);}y+=h;}
   // широкая строка: ячейка №1..5 (подпись справа) + ячейка №6 (значение)
   function span5(label,value,o){o=o||{};const h=o.h||RH;chk(h);cell(X[0],X[5],h,o.bg);cell(X[5],X[6],h,o.bg);tx(label,X[5]-PAD,y+TY,o.lf||F9,o.lc||'#111','right');tx(value,X[6]-PAD,y+TY,o.vf||F9,o.vc||'#111','right');y+=h;}
 
@@ -1945,10 +1945,10 @@ function drawEstimate(est, mode) {
     y+=6*S;
     // 8 колонок как в «Закупке»: № Наименование Ед Шт Длина Всего Цена/ед Стоимость
     const ifr=[0,0.04,0.30,0.37,0.45,0.56,0.67,0.835,1],IX=ifr.map(f=>PX+f*CW);
-    function icell(x1,x2,h,bg){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle='#888';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
-    function ihdr(tt){chk(RH);ctx.fillStyle='#f0f0f0';ctx.fillRect(IX[0],y,CW,RH);ctx.strokeStyle='#888';ctx.lineWidth=0.5*S;ctx.strokeRect(IX[0],y,CW,RH);tx(tt,IX[0]+PAD,y+TY,F8b,'#111');y+=RH;}
+    function icell(x1,x2,h,bg,bc){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle=bc||'#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
+    function ihdr(tt){chk(RH);ctx.fillStyle='#f0f0f0';ctx.fillRect(IX[0],y,CW,RH);ctx.strokeStyle='#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(IX[0],y,CW,RH);tx(tt,IX[0]+PAD,y+TY,F8b,'#111');y+=RH;}
     chk(RH);const HD=['№','Наименование','Ед.','Шт.','Длина, м','Всего','Цена/ед., руб.','Стоимость, руб.'],HA=['left','left','left','right','right','right','right','right'];
-    for(let i=0;i<8;i++){icell(IX[i],IX[i+1],RH,'#ddddee');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F8,'#111',HA[i]);}y+=RH;
+    for(let i=0;i<8;i++){icell(IX[i],IX[i+1],RH,'#ddddee','#888');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F8,'#111',HA[i]);}y+=RH;
     let idx=0,grand=0;
     for(const it of (est.items||[])){
       const wi=WORK_ITEMS.find(w=>w.id===it.id);if(!wi)continue;
@@ -1981,13 +1981,12 @@ function drawEstimate(est, mode) {
     }
     chk(RH);icell(IX[0],IX[7],RH,'#eeeeff');icell(IX[7],IX[8],RH,'#eeeeff');
     tx('ИТОГО:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(grand),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
-    // Подписи продавца и покупателя
-    y+=22*S;chk(30*S);
+    // Подписи продавца и покупателя (расшифровка — ниже строки подписи)
+    y+=24*S;chk(36*S);
     tx('Продавец: ______________________ / __________',PX,y+9*S,F9,'#333');
     tx('Покупатель: _____________________ / __________',PX+CW*0.52,y+9*S,F9,'#333');
-    y+=8*S;
-    tx('(подпись / расшифровка)',PX,y+8*S,F85,'#888');
-    tx('(подпись / расшифровка)',PX+CW*0.52,y+8*S,F85,'#888');
+    tx('(подпись / расшифровка)',PX,y+24*S,F85,'#888');
+    tx('(подпись / расшифровка)',PX+CW*0.52,y+24*S,F85,'#888');
     return pages;
   }
 
@@ -2000,10 +1999,10 @@ function drawEstimate(est, mode) {
   y+=8*S;
 
   // таблица
-  trow([{t:'№'},{t:'Наименование работ и материалов'},{t:'Ед.'},{t:'Кол-во',align:'right'},{t:'Цена, руб.',align:'right'},{t:'Стоимость, руб.',align:'right'}],{bg:'#e8e8e8',font:F9});
+  trow([{t:'№'},{t:'Наименование работ и материалов'},{t:'Ед.'},{t:'Кол-во',align:'right'},{t:'Цена, руб.',align:'right'},{t:'Стоимость, руб.',align:'right'}],{bg:'#e8e8e8',font:F9,bc:'#999'});
   const groups=groupItemsByCat(est.items,d),multi=groups.length>1;let idx=0;
   for(const g of groups){
-    chk(RH);ctx.fillStyle='#eef4ff';ctx.fillRect(X[0],y,CW,RH);ctx.strokeStyle='#999';ctx.lineWidth=0.6*S;ctx.strokeRect(X[0],y,CW,RH);
+    chk(RH);ctx.fillStyle='#eef4ff';ctx.fillRect(X[0],y,CW,RH);ctx.strokeStyle='#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(X[0],y,CW,RH);
     tx(g.cat,X[0]+PAD,y+TY,F9b,'#16407a');y+=RH;
     for(const {wi,it,tot} of g.rows){
       idx++;const per=it.qty?tot/it.qty:tot;
