@@ -182,6 +182,41 @@ html[data-theme="dark"] .form-total-bar{background:#1f242b;color:#e4e6eb;border-
 /* Адаптив: телефон (<768px) — карточки; компьютер (>=768px) — таблица, как в EXE */
 @media (max-width:767px){ .only-desktop{display:none!important} }
 @media (min-width:768px){ .only-mobile{display:none!important} }
+
+/* Верхнее меню как в EXE (Bootstrap navbar bg-primary) */
+.exenav{position:sticky;top:0;z-index:200;background:#0d6efd;display:flex;align-items:center;gap:12px;padding:8px 16px}
+.exenav .exenav-logo{height:34px;background:#fff;border-radius:6px;padding:4px 8px;display:inline-block!important}
+.exenav-menu{margin-left:auto;display:flex;align-items:center;gap:4px}
+.exenav-link{color:rgba(255,255,255,.85);text-decoration:none;font-size:15px;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.exenav-link:hover{color:#fff}
+.exenav-link.active{color:#fff;background:rgba(255,255,255,.18);font-weight:700}
+.exenav-link.kscmete{color:#ffc107;font-weight:600}
+.exenav-user{color:rgba(255,255,255,.75);font-size:15px;padding:6px 8px;white-space:nowrap}
+.exenav-theme{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:8px;padding:5px 10px;font-size:15px;cursor:pointer;margin-left:4px}
+.exenav-theme:hover{background:rgba(255,255,255,.15)}
+html[data-theme="dark"] .exenav{background:#1f242b}
+
+/* Кнопки действий как в EXE (Bootstrap outline-secondary / outline-dark) */
+.btn-outline-secondary{background:#fff;color:#6c757d;border:1px solid #6c757d}
+.btn-outline-secondary:hover{background:#6c757d;color:#fff}
+.btn-outline-dark{background:#fff;color:#212529;border:1px solid #212529}
+.btn-outline-dark:hover{background:#212529;color:#fff}
+html[data-theme="dark"] .btn-outline-secondary{background:#1f242b;color:#aab2bd;border-color:#6c757d}
+html[data-theme="dark"] .btn-outline-dark{background:#1f242b;color:#e4e6eb;border-color:#aab2bd}
+
+/* Форма (десктоп) как в EXE: верхняя зелёная сводка + поля в строку */
+.form-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;border-bottom:3px solid #198754;padding:12px 14px;margin:0 0 14px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.ftb-totals{display:flex;gap:22px;align-items:baseline;font-size:15px;color:#212529;flex-wrap:wrap}
+.ftb-totals b{font-weight:700}
+.ftb-totals .ftb-final{font-size:17px;font-weight:700;color:#198754}
+html[data-theme="dark"] .form-topbar{background:#1f242b;color:#e4e6eb}
+html[data-theme="dark"] .ftb-totals{color:#e4e6eb}
+@media (min-width:768px){
+  .form-row.client-row{flex-wrap:nowrap}
+  .form-row.client-row .field.sm{flex:1 1 0;min-width:0}
+  .form-row.client-row .field{flex:2 1 0;min-width:0}
+  .cat-header{text-transform:none;letter-spacing:normal;font-size:13px}
+}
 .page-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .page-head .ph-title{font-size:20px;font-weight:600}
 .page-head .ph-sub{color:#6c757d;font-size:13px;margin-top:3px}
@@ -237,6 +272,18 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 </head>
 <body>
 
+<!-- ═══ ВЕРХНЕЕ МЕНЮ (десктоп, как в EXE) ═══ -->
+<nav class="exenav only-desktop" id="exeNav" style="display:none">
+  <img class="app-logo exenav-logo" alt="" style="display:none">
+  <div class="exenav-menu">
+    <a class="exenav-link active" id="exeSmety" onclick="showList()">📋 Сметы</a>
+    <a class="exenav-link kscmete" id="exeKsmete" onclick="exeBackToEstimate()" style="display:none">← К смете</a>
+    <span class="exenav-user">Сотрудник</span>
+    <a class="exenav-link" onclick="exeLogout()">Выход</a>
+    <button type="button" class="exenav-theme" onclick="toggleTheme()" title="Светлая / тёмная тема">🌙</button>
+  </div>
+</nav>
+
 <!-- ═══ LOGIN ═══ -->
 <div id="screen-login" class="screen active">
   <div class="login-box">
@@ -254,7 +301,7 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 
 <!-- ═══ LIST ═══ -->
 <div id="screen-list" class="screen">
-  <div class="nav">
+  <div class="nav only-mobile">
     <img class="app-logo" alt="" style="height:30px;background:#fff;border-radius:6px;padding:4px 7px;margin-right:8px;display:none">
     <h1>Сметы</h1>
     <button class="btn-nav" id="exitBtn" onclick="if(confirm('Выйти из программы?'))location.href='/logout'" style="display:none;margin-right:4px" title="Выход">⎋ Выход</button>
@@ -277,7 +324,7 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
         <option value="cancel">Отменена</option>
       </select>
     </div>
-    <div class="backup-row">
+    <div class="backup-row only-mobile">
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="exportBackup()">💾 Сохранить копию</button>
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="document.getElementById('importFile').click()">📁 Восстановить</button>
       <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importBackup(this)">
@@ -289,25 +336,34 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 
 <!-- ═══ FORM ═══ -->
 <div id="screen-form" class="screen">
-  <div class="nav">
+  <div class="nav only-mobile">
     <button class="btn-back" onclick="showList()"><span class="chev">‹</span> Назад</button>
     <h1 id="formTitle">Новая смета</h1>
     <button class="btn-nav" onclick="saveEstimate()">Сохранить</button>
   </div>
   <div class="container">
 
+    <!-- Десктоп: заголовок + зелёная сводка с «Сохранить смету» (как в EXE) -->
+    <div class="page-head only-desktop" style="margin-bottom:10px">
+      <div class="ph-title" id="formTitleDesk">Новая смета</div>
+    </div>
+    <div class="form-topbar only-desktop">
+      <div class="ftb-totals">
+        <span>Стоимость: <b id="ftbClient">0 ₽</b></span>
+        <span>Скидка: <b id="ftbDisc" style="color:#dc3545">0 ₽</b></span>
+        <span class="ftb-final">К оплате: <b id="ftbFinal">0 ₽</b></span>
+      </div>
+      <button type="button" class="btn-success" onclick="saveEstimate()">Сохранить смету</button>
+    </div>
+
     <!-- Клиент -->
     <div class="card">
       <div class="card-header">Данные клиента</div>
       <div class="card-body">
-        <div class="form-row">
+        <div class="form-row client-row">
           <div class="field sm"><label>№ обращения</label><input id="fAppeal" type="text" placeholder="152"></div>
           <div class="field sm"><label>№ договора</label><input id="fContract" type="text" placeholder="19827"></div>
-        </div>
-        <div class="form-row">
           <div class="field"><label>ФИО клиента</label><input id="fClient" type="text" placeholder="Иванов Иван Иванович"></div>
-        </div>
-        <div class="form-row">
           <div class="field sm"><label>Статус</label>
             <select id="fStatus">
               <option value="draft">Черновик</option>
@@ -395,7 +451,7 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 
 <!-- ═══ VIEW ═══ -->
 <div id="screen-view" class="screen">
-  <div class="nav">
+  <div class="nav only-mobile">
     <button class="btn-back" onclick="showList()"><span class="chev">‹</span> Назад</button>
     <h1 id="viewTitle">Смета</h1>
     <button class="btn-nav" onclick="showPdf()">📄 Предпросмотр</button>
@@ -421,7 +477,7 @@ html[data-theme="dark"] .btn-open{background:#1f242b}
 </div>
 
 <!-- Sticky total bar (вне экранов, управляется JS) -->
-<div class="form-total-bar" id="formBar">
+<div class="form-total-bar only-mobile" id="formBar">
   <span>К оплате:</span>
   <span id="formBarTotal">—</span>
 </div>
@@ -679,7 +735,26 @@ function showScreen(id) {
     if (id !== 'screen-form') dw.style.display = 'none';
     else { const nav = document.querySelector('#screen-form .nav'); if (nav) dw.style.top = nav.offsetHeight + 'px'; }
   }
+  // Верхнее меню (десктоп): прячем на логине, подсвечиваем активный пункт
+  const exeNav = document.getElementById('exeNav');
+  if (exeNav) exeNav.style.display = (id === 'screen-login') ? 'none' : '';
+  const exeSmety = document.getElementById('exeSmety');
+  if (exeSmety) exeSmety.classList.toggle('active', id === 'screen-list');
+  const exeK = document.getElementById('exeKsmete');
+  if (exeK) exeK.style.display = (currentId && id !== 'screen-login') ? '' : 'none';
   window.scrollTo(0,0);
+}
+
+// «← К смете»: открыть текущую смету в редакторе (как в EXE)
+function exeBackToEstimate() {
+  const est = load().find(e => e.id === currentId);
+  if (est) showForm(est); else showList();
+}
+// «Выход»: вернуться на экран входа
+function exeLogout() {
+  if (!confirm('Выйти из программы?')) return;
+  const p = document.getElementById('loginPass'); if (p) p.value = '';
+  showScreen('screen-login');
 }
 
 function showList() {
@@ -690,6 +765,8 @@ function showList() {
 function showForm(est) {
   currentId = est ? est.id : null;
   document.getElementById('formTitle').textContent = est ? 'Редактировать' : 'Новая смета';
+  const _ftd = document.getElementById('formTitleDesk');
+  if (_ftd) _ftd.textContent = est ? ('Смета № ' + (est.contract_no || '')) : 'Новая смета';
 
   // Заполняем поля
   document.getElementById('fAppeal').value   = est?.appeal_no   || '';
@@ -1201,6 +1278,10 @@ function recalcForm() {
   document.getElementById('fTotalFinal').textContent  = fmtRub(t.final);
   const barEl = document.getElementById('formBarTotal');
   if (barEl) barEl.textContent = fmtRub(t.final);
+  // Десктопная верхняя сводка (как в EXE)
+  const _fc = document.getElementById('ftbClient'); if (_fc) _fc.textContent = fmtRub(t.client);
+  const _fd = document.getElementById('ftbDisc');   if (_fd) _fd.textContent = fmtRub(t.discAmt || 0);
+  const _ff = document.getElementById('ftbFinal');  if (_ff) _ff.textContent = fmtRub(t.final);
   // padding чтобы контент не скрывался за панелью
   const cont = document.querySelector('#screen-form .container');
   if (cont) cont.classList.add('form-bar-active');
@@ -1335,7 +1416,10 @@ function renderView(est) {
     return head + rows + sub;
   }).join('');
 
-  const title = (est.contract_no || est.appeal_no) ? 'Смета № ' + (est.contract_no || est.appeal_no) : 'Смета';
+  // Номер как в EXE: «Смета № <договор или порядковый>» (всегда с номером)
+  const _allV = load();
+  const _seqV = {}; _allV.slice().sort((a,b)=>a.id-b.id).forEach((e,i)=>{ _seqV[e.id]=i+1; });
+  const title = 'Смета № ' + (est.contract_no || _seqV[est.id] || '');
 
   // --- Телефон: карточный вид (как было) ---
   const dimsHtmlCard = [
@@ -1363,13 +1447,13 @@ function renderView(est) {
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <span class="ph-title">${title}</span>${statusBadge(est.status)}
           </div>
-          <div class="ph-sub">${est.client_name || 'Не указан'} — ${est.date || ''}${est.appeal_no ? ' · Обращение № '+est.appeal_no : ''}</div>
+          <div class="ph-sub">${est.client_name || ''} — ${est.date || ''}${est.appeal_no ? ' · Обращение № '+est.appeal_no : ''}</div>
         </div>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
-          <button class="btn btn-outline btn-sm" onclick="editCurrent()">✏️ Редактировать</button>
-          <button class="btn btn-outline btn-sm" onclick="duplicateEst(${est.id})">📋 Копировать</button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="editCurrent()">✏️ Редактировать</button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="duplicateEst(${est.id})">📋 Копировать</button>
           <button class="btn btn-primary btn-sm" onclick="sendPdf(this)">📥 Скачать PDF</button>
-          <button class="btn btn-outline btn-sm" onclick="sendInvoice(this)">📄 Накладная</button>
+          <button class="btn btn-outline-dark btn-sm" onclick="sendInvoice(this)">📄 Накладная</button>
         </div>
       </div>
 
@@ -1392,8 +1476,6 @@ function renderView(est) {
       </table></div>` : ''}
 
       ${est.notes ? `<p style="color:#6c757d;font-size:13px;margin-bottom:14px">Примечание: ${est.notes}</p>` : ''}
-
-      <button class="btn btn-danger btn-sm" style="width:auto;margin-bottom:30px" onclick="deleteEst(${est.id})">Удалить смету</button>
     </div>
 
     <!-- ═══ Телефон: карточки (как было) ═══ -->
@@ -1574,9 +1656,116 @@ async function shareFile(blob, filename, mime, title) {
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
 
+// Порядковый номер сметы (как id в EXE: по дате создания)
+function _seqNum(est) {
+  const all = load(); const m = {};
+  all.slice().sort((a, b) => a.id - b.id).forEach((e, i) => { m[e.id] = i + 1; });
+  return m[est.id] || '';
+}
+
+// HTML-бланк сметы — 1:1 с templates/print/estimate.html (EXE),
+// чтобы PDF через печать браузера выглядел идентично EXE.
+function buildPrintHtml(est) {
+  const d = est.dims || {};
+  const t = calcTotals(est.items, est.discount_pct, est.discount_rub, d);
+  const groups = groupItemsByCat(est.items, d);
+  const multi = groups.length > 1;
+  const num = est.appeal_no || est.contract_no || _seqNum(est);
+  const company = (typeof COMPANY !== 'undefined' && COMPANY) ? COMPANY : '';
+  const details = (typeof COMPANY_DETAILS !== 'undefined' && COMPANY_DETAILS) ? COMPANY_DETAILS : '';
+  const logo = (typeof LOGO !== 'undefined' && LOGO) ? LOGO : '';
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const detailsHtml = details ? details.replace(/\r/g, '').split('\n').map(l => esc(l)).join('<br>') : '';
+  let idx = 0;
+  const rowsHtml = groups.map(g => {
+    const cat = `<tr><td colspan="6" style="background:#eef4ff;font-weight:bold;color:#16407a;padding:4px 6px">${esc(g.cat)}</td></tr>`;
+    const rows = g.rows.map(({ wi, it, tot }) => {
+      idx++;
+      const per = it.qty ? tot / it.qty : tot;
+      return `<tr><td>${idx}</td><td>${esc(wi.name)}</td><td>${esc(wi.unit)}</td><td class="num">${it.qty}</td><td class="num">${fmtRub(per)}</td><td class="num">${fmtRub(tot)}</td></tr>`;
+    }).join('');
+    const sub = multi ? `<tr><td colspan="5" class="num" style="font-style:italic;color:#555;padding:3px 6px">ИТОГО:</td><td class="num" style="font-weight:bold;padding:3px 6px">${fmtRub(g.subtotal)}</td></tr>` : '';
+    return cat + rows + sub;
+  }).join('');
+  const discHtml = t.discAmt > 0 ? `<tr><td colspan="5" class="num">Скидка:</td><td class="num">${fmtRub(t.discAmt)}</td></tr>` : '';
+  const letterhead = (company || detailsHtml || logo) ? `<div class="letterhead" style="display:flex;align-items:flex-start;justify-content:space-between;gap:8mm">
+  <div><div class="lh-company">${esc(company)}</div>${detailsHtml ? `<div class="lh-details">${detailsHtml}</div>` : ''}</div>
+  ${logo ? `<img src="${logo}" style="height:13mm;width:auto;flex-shrink:0">` : ''}</div>` : '';
+  return `<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>Смета № ${esc(num)}</title>
+<style>
+  @page { size: A4; margin: 18mm 15mm; }
+  body { font-family: Arial, sans-serif; font-size: 10pt; color: #111; margin:0; }
+  h2 { font-size: 14pt; margin-bottom: 2mm; }
+  .header-block { margin-bottom: 6mm; }
+  .letterhead { border-bottom: 1pt solid #333; padding-bottom: 3mm; margin-bottom: 4mm; }
+  .lh-company { font-size: 13pt; font-weight: bold; }
+  .lh-details { color: #555; font-size: 8.5pt; margin-top: 1mm; line-height: 1.35; }
+  table { width: 100%; border-collapse: collapse; margin-top: 4mm; }
+  th { background: #e8e8e8; padding: 1.5mm 2mm; text-align: left; border: 0.5pt solid #999; font-size: 9pt; }
+  td { padding: 1.2mm 2mm; border: 0.5pt solid #ccc; font-size: 9pt; vertical-align: middle; }
+  .num { text-align: right; }
+  .total-row td { font-weight: bold; background: #f5f5f5; }
+  .final-row td { font-weight: bold; font-size: 11pt; background: #e0ffe0; }
+  .footer { margin-top: 10mm; font-size: 9pt; color: #555; }
+  .sig-block { margin-top: 12mm; display: flex; justify-content: space-between; }
+  .sig-line { border-top: 0.5pt solid #333; width: 45%; padding-top: 2mm; font-size: 9pt; }
+</style></head><body>
+${letterhead}
+<div class="header-block">
+  <h2>СМЕТА № ${esc(num)}</h2>
+  <table style="width:auto; margin:0; border:none">
+    <tr><td style="border:none; padding:1mm 4mm 1mm 0; color:#555">Клиент:</td><td style="border:none; padding:1mm 0; font-weight:bold">${esc(est.client_name)}</td></tr>
+    <tr><td style="border:none; padding:1mm 4mm 1mm 0; color:#555">Дата:</td><td style="border:none; padding:1mm 0">${esc(est.date)}</td></tr>
+    <tr><td style="border:none; padding:1mm 4mm 1mm 0; color:#555">Балкон:</td><td style="border:none; padding:1mm 0">Длина ${d.A || 0}м × Ширина ${d.B || 0}м, высота перил ${d.D || 0}м, высота балкона ${d.C || 0}м</td></tr>
+  </table>
+</div>
+<table>
+  <thead><tr>
+    <th style="width:5%">№</th><th>Наименование работ и материалов</th><th style="width:8%">Ед.</th>
+    <th style="width:9%" class="num">Кол-во</th><th style="width:13%" class="num">Цена, руб.</th><th style="width:13%" class="num">Стоимость, руб.</th>
+  </tr></thead>
+  <tbody>
+  ${rowsHtml}
+  <tr class="total-row"><td colspan="5" class="num">Итого:</td><td class="num">${fmtRub(t.client)}</td></tr>
+  ${discHtml}
+  <tr class="final-row"><td colspan="5" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(t.final)}</td></tr>
+  </tbody>
+</table>
+${est.notes ? `<p class="footer">Примечание: ${esc(est.notes)}</p>` : ''}
+<div class="sig-block"><div class="sig-line">Исполнитель: ____________________</div><div class="sig-line">Заказчик: ____________________</div></div>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW',e);});
+  });
+}
+</script>
+</body></html>`;
+}
+
+// Печать HTML-бланка через браузер (как EXE: Edge --print-to-pdf → «Сохранить как PDF»)
+function printDoc(html) {
+  const ifr = document.createElement('iframe');
+  ifr.setAttribute('aria-hidden', 'true');
+  ifr.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  document.body.appendChild(ifr);
+  const w = ifr.contentWindow;
+  w.document.open(); w.document.write(html); w.document.close();
+  const go = () => { try { w.focus(); w.print(); } catch (e) {}
+    setTimeout(() => { try { document.body.removeChild(ifr); } catch (e) {} }, 1500); };
+  ifr.onload = () => setTimeout(go, 350);
+  // на случай если onload уже прошёл
+  if (w.document.readyState === 'complete') setTimeout(go, 350);
+}
+
 async function sendPdf(btn) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
+  // Десктоп: печать HTML-бланка браузером (идентично EXE). Телефон: PDF + «Поделиться».
+  if (window.matchMedia && window.matchMedia('(min-width:768px)').matches) {
+    printDoc(buildPrintHtml(est));
+    return;
+  }
   const title = (est.appeal_no || est.contract_no) ? 'Смета №' + (est.appeal_no || est.contract_no) : 'Смета';
   const pdfBtn = btn || document.querySelector('#screen-pdf .btn-nav');
   const origTxt = pdfBtn ? pdfBtn.textContent : '';
@@ -1594,10 +1783,74 @@ async function buildPdfBlob(est, mode) {
   return pagesToPdfBlob(drawEstimate(est, mode));
 }
 
+// HTML-бланк накладной — 1:1 с templates/print/invoice.html (EXE)
+function buildInvoicePrintHtml(est) {
+  const d = est.dims || {};
+  const t = calcTotals(est.items, est.discount_pct, est.discount_rub, d);
+  const num = est.contract_no || _seqNum(est);
+  const company = (typeof COMPANY !== 'undefined' && COMPANY) ? COMPANY : '';
+  const details = (typeof COMPANY_DETAILS !== 'undefined' && COMPANY_DETAILS) ? COMPANY_DETAILS : '';
+  const logo = (typeof LOGO !== 'undefined' && LOGO) ? LOGO : '';
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const detailsHtml = details ? details.replace(/\r/g, '').split('\n').map(l => esc(l)).join('<br>') : '';
+  const letterhead = (company || detailsHtml || logo) ? `<div class="letterhead" style="display:flex;align-items:flex-start;justify-content:space-between;gap:8mm">
+  <div><div class="lh-company">${esc(company)}</div>${detailsHtml ? `<div class="lh-details">${detailsHtml}</div>` : ''}</div>
+  ${logo ? `<img src="${logo}" style="height:13mm;width:auto;flex-shrink:0">` : ''}</div>` : '';
+  let idx = 0;
+  const rows = (est.items || []).map(it => {
+    const wi = WORK_ITEMS.find(w => w.id === it.id); if (!wi) return '';
+    const tot = getItemLineTotal(wi, it, d);
+    const per = it.qty ? tot / it.qty : tot;
+    idx++;
+    const cp = [it.color, it.colorB, it.colorC].filter(Boolean);
+    const colorNote = cp.length ? `<br><span style="font-size:8pt; color:#555">${esc(cp.join(' / '))}</span>` : '';
+    return `<tr><td>${idx}</td><td>${esc(wi.name)}${colorNote}</td><td>${esc(wi.unit)}</td><td class="num">${it.qty}</td><td class="num">${fmtRub(per)}</td><td class="num">${fmtRub(tot)}</td></tr>`;
+  }).join('');
+  const discBlock = t.discAmt > 0 ? `<tr><td colspan="5" class="num">Скидка:</td><td class="num">${fmtRub(t.discAmt)}</td></tr><tr class="total-row"><td colspan="5" class="num">ИТОГО по накладной:</td><td class="num">${fmtRub(t.final)}</td></tr>` : '';
+  return `<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>Накладная № ${esc(num)}</title>
+<style>
+  @page { size: A4; margin: 18mm 15mm; }
+  body { font-family: Arial, sans-serif; font-size: 10pt; color: #111; margin:0; }
+  h2 { font-size: 14pt; margin-bottom: 2mm; }
+  table { width: 100%; border-collapse: collapse; margin-top: 4mm; }
+  th { background: #e8e8e8; padding: 1.5mm 2mm; border: 0.5pt solid #999; font-size: 9pt; }
+  td { padding: 1.2mm 2mm; border: 0.5pt solid #ccc; font-size: 9pt; }
+  .num { text-align: right; }
+  .total-row td { font-weight: bold; background: #f5f5f5; }
+  .sig-block { margin-top: 12mm; display: flex; justify-content: space-between; }
+  .sig-line { border-top: 0.5pt solid #333; width: 45%; padding-top: 2mm; font-size: 9pt; }
+  .letterhead { border-bottom: 1pt solid #333; padding-bottom: 3mm; margin-bottom: 4mm; }
+  .lh-company { font-size: 13pt; font-weight: bold; }
+  .lh-details { color: #555; font-size: 8.5pt; margin-top: 1mm; line-height: 1.35; }
+</style></head><body>
+${letterhead}
+<div style="text-align:right; font-size:9pt; color:#555">"_____" __________________ 20____ г.</div>
+<h2>НАКЛАДНАЯ № ${esc(num)}</h2>
+<p><strong>Кому:</strong> ${esc(est.client_name)}<br><strong>От кого:</strong> ${esc(company)}</p>
+<table>
+  <thead><tr>
+    <th style="width:5%">№</th><th>Наименование</th><th style="width:8%">Ед.</th>
+    <th style="width:9%" class="num">Кол-во</th><th style="width:13%" class="num">Цена, руб.</th><th style="width:13%" class="num">Стоимость, руб.</th>
+  </tr></thead>
+  <tbody>
+  ${rows}
+  <tr class="total-row"><td colspan="5" class="num">Стоимость материалов по накладной:</td><td class="num">${fmtRub(t.client)}</td></tr>
+  ${discBlock}
+  </tbody>
+</table>
+<div class="sig-block"><div class="sig-line">Сдал: ${esc(company)} ___________</div><div class="sig-line">Принял: ${esc(est.client_name)} ___________</div></div>
+</body></html>`;
+}
+
 // Поделиться/скачать накладную (PDF) — доступно сотруднику
 async function sendInvoice(btn) {
   const est = load().find(e => e.id === currentId);
   if (!est) return;
+  // Десктоп: печать HTML-бланка браузером (идентично EXE)
+  if (window.matchMedia && window.matchMedia('(min-width:768px)').matches) {
+    printDoc(buildInvoicePrintHtml(est));
+    return;
+  }
   const title = 'Накладная №' + (est.contract_no || est.id);
   const origTxt = btn ? btn.textContent : '';
   if (btn) { btn.textContent = '⏳'; btn.disabled = true; }
@@ -1951,13 +2204,6 @@ let LOGO_IMG = null;
     renderList();
   }
 })();
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js').catch(function(e){console.log('SW',e);});
-  });
-}
 </script>
 </body>
 </html>
