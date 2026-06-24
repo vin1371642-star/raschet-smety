@@ -1491,10 +1491,10 @@ function renderView(est) {
     <!-- ═══ Телефон: карточки (как было) ═══ -->
     <div class="only-mobile">
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-        <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="printSmeta()">📄 Смета (PDF)</button>
+        <button class="btn btn-primary" style="flex:1;min-width:140px" onclick="showPdf('client')">📄 Смета (PDF)</button>
         <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="editCurrent()">✏️ Редактировать</button>
         <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="duplicateEst(${est.id})">📋 Копировать</button>
-        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="printInvoice()">🧾 Накладная (PDF)</button>
+        <button class="btn btn-outline" style="flex:1;min-width:140px" onclick="showPdf('invoice')">🧾 Накладная (PDF)</button>
       </div>
       <div class="card">
         <div class="card-header">Клиент</div>
