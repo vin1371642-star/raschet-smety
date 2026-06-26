@@ -1266,6 +1266,10 @@ function pickColor(id, field, name) {
   updateColorBadge(id);
 }
 function txtTap(btn) { pickColor(+btn.dataset.wi, btn.dataset.field, btn.dataset.name); }
+function tileTap(btn) {
+  const o = _optByRef(btn.dataset.imgref);
+  zoomColor(o ? o.img : '', btn.dataset.name, +btn.dataset.wi, btn.dataset.field);
+}
 function otherColor(id) {
   const sel = document.querySelector(`.wi-color[data-id="${id}"]`);
   if (sel) sel.value = '__other__';
