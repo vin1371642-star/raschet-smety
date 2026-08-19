@@ -1410,6 +1410,15 @@ function calcTotals(items, discPct, discRub, dims) {
   return { client, discAmt, final: round2(Math.max(0, client - discAmt)) };
 }
 
+// Скидка для НАКЛАДНОЙ — та же логика, что в calcTotals (% ИЛИ рубли, приоритет у %),
+// но считается от ИТОГО самой накладной, чтобы арифметика бланка сходилась.
+function invoiceDiscount(est, grand) {
+  let amt = 0;
+  if (est.discount_pct) amt = round2(grand * est.discount_pct / 100);
+  else if (est.discount_rub) amt = est.discount_rub;
+  return { amt, final: round2(Math.max(0, grand - amt)) };
+}
+
 // Какие размеры нужны формуле работы — парсим из ITEM_MATERIALS.
 // core = A,B,C,D,E,K,L (нужен каждый упомянутый); over = выносы M,N,P
 // (для работ с выносами нужно задать ХОТЯ БЫ ОДИН — напр. «Расширение по плите»).
@@ -2047,6 +2056,7 @@ function buildInvoicePrintHtml(est) {
       body += `<tr><td>${idx}</td><td>${esc(r.name)}</td><td>${esc(r.unit || '')}</td><td class="num">${r.pcs != null ? r.pcs : ''}</td><td class="num">${r.len != null ? r.len : ''}</td><td class="num">${r.qty}</td><td class="num">${fmtRub(r.price)}</td><td class="num">${fmtRub(r.total)}</td></tr>`;
     }
   }
+  const _inv = invoiceDiscount(est, round2(grand));
   return `<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>Накладная № ${esc(num)}</title>
 <style>
   @page { size: A4; margin: 15mm 12mm; }
@@ -2059,6 +2069,7 @@ function buildInvoicePrintHtml(est) {
   .num { text-align: right; white-space: nowrap; }
   .work-header td { background: #f0f0f0; font-weight: bold; padding: 2mm 2mm; }
   .total-row td { font-weight: bold; background: #eef; }
+  .final-row td { font-weight: bold; background: #e0ffe0; }
   .letterhead { border-bottom: 1pt solid #333; padding-bottom: 3mm; margin-bottom: 3mm; display: flex; align-items: flex-start; justify-content: space-between; gap: 8mm; }
   .lh-company { font-size: 12pt; font-weight: bold; }
   .lh-details { color: #555; font-size: 8pt; margin-top: 1mm; line-height: 1.35; }
@@ -2080,6 +2091,8 @@ ${letterhead}
   <tbody>
   ${body}
   <tr class="total-row"><td colspan="7" class="num">ИТОГО:</td><td class="num">${fmtRub(round2(grand))}</td></tr>
+  ${_inv.amt > 0 ? `<tr><td colspan="7" class="num">Скидка:</td><td class="num">${fmtRub(_inv.amt)}</td></tr>
+  <tr class="final-row"><td colspan="7" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(_inv.final)}</td></tr>` : ''}
   </tbody>
 </table>
 <table style="width:100%; border:none; border-collapse:collapse; margin-top:9mm">
@@ -2197,6 +2210,13 @@ function drawEstimate(est, mode) {
     }
     chk(RH);icell(IX[0],IX[7],RH,'#eeeeff');icell(IX[7],IX[8],RH,'#eeeeff');
     tx('ИТОГО:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(grand),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
+    const _inv=invoiceDiscount(est,grand);
+    if(_inv.amt>0){
+      chk(RH);icell(IX[0],IX[7],RH);icell(IX[7],IX[8],RH);
+      tx('Скидка:',IX[7]-PAD,y+TY,F8,'#111','right');tx(fmtRub(_inv.amt),IX[8]-PAD,y+TY,F8,'#111','right');y+=RH;
+      chk(RH);icell(IX[0],IX[7],RH,'#e0ffe0');icell(IX[7],IX[8],RH,'#e0ffe0');
+      tx('К ОПЛАТЕ:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(_inv.final),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
+    }
     // Подписи продавца и покупателя (расшифровка — ниже строки подписи)
     y+=24*S;chk(36*S);
     tx('Продавец: ______________________ / __________',PX,y+9*S,F9,'#333');
