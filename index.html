@@ -547,7 +547,7 @@ const WORK_ITEMS = [
   {id:17,  cat:"Пол",  name:"Пол без подъема",  unit:"шт",  price:0,  cp:10320},
   {id:66,  cat:"Пол",  name:"Пол подъем на 100мм",  unit:"шт",  price:0,  cp:11040},
   {id:67,  cat:"Пол",  name:"Пол подъем 150мм",  unit:"шт",  price:0,  cp:12480,  noqty:1},
-  {id:81,  cat:"Пол",  name:"Пол подъем 200мм",  unit:"п.м.",  price:0,  cp:15360,  noqty:1},
+  {id:81,  cat:"Пол",  name:"Пол подъем 200мм",  unit:"п.м",  price:0,  cp:15360,  noqty:1},
   {id:18,  cat:"Пол",  name:"Покрытие пола (линолеум)",  unit:"шт",  price:0,  cp:6480,  pal:4},
   {id:19,  cat:"Пол",  name:"Покрытие пола (ламинат)",  unit:"шт",  price:0,  cp:13872,  pal:3},
   {id:20,  cat:"Пол",  name:"Покрытие пола (кварц-винил Bonkeel)",  unit:"шт",  price:0,  cp:23760,  pal:5},
@@ -588,17 +588,17 @@ const WORK_ITEMS = [
   {id:53,  cat:"Материалы п.м",  name:"Уголок 40*40*4",  unit:"п.м",  price:240,  mk:1.4},
   {id:54,  cat:"Материалы п.м",  name:"Пластина 50*4",  unit:"п.м",  price:150,  mk:1.4},
   {id:55,  cat:"Материалы п.м",  name:"Пластина 40*4",  unit:"п.м",  price:120,  mk:1.4},
-  {id:70,  cat:"Обналичка",  name:"Обналичка до 50мм в развороте",  unit:"п.м.",  price:84,  mk:2},
-  {id:71,  cat:"Обналичка",  name:"Обналичка до 60мм в развороте",  unit:"п.м.",  price:96,  mk:2},
-  {id:72,  cat:"Обналичка",  name:"Обналичка до 70мм в развороте",  unit:"п.м.",  price:108,  mk:2},
-  {id:73,  cat:"Обналичка",  name:"Обналичка до 80мм в развороте",  unit:"п.м.",  price:120,  mk:2},
-  {id:74,  cat:"Обналичка",  name:"Обналичка до 90мм в развороте",  unit:"п.м.",  price:132,  mk:2},
-  {id:75,  cat:"Обналичка",  name:"Обналичка до 100мм в развороте",  unit:"п.м.",  price:144,  mk:2},
-  {id:76,  cat:"Обналичка",  name:"Обналичка до 120мм в развороте",  unit:"п.м.",  price:168,  mk:2},
-  {id:77,  cat:"Обналичка",  name:"Обналичка до 140мм в развороте",  unit:"п.м.",  price:192,  mk:2},
-  {id:78,  cat:"Обналичка",  name:"Обналичка до 160мм в развороте",  unit:"п.м.",  price:216,  mk:2},
-  {id:79,  cat:"Обналичка",  name:"Обналичка до 180мм в развороте",  unit:"п.м.",  price:240,  mk:2},
-  {id:80,  cat:"Обналичка",  name:"Обналичка до 200мм в развороте",  unit:"п.м.",  price:264,  mk:2},
+  {id:70,  cat:"Обналичка",  name:"Обналичка до 50мм в развороте",  unit:"п.м",  price:84,  mk:2},
+  {id:71,  cat:"Обналичка",  name:"Обналичка до 60мм в развороте",  unit:"п.м",  price:96,  mk:2},
+  {id:72,  cat:"Обналичка",  name:"Обналичка до 70мм в развороте",  unit:"п.м",  price:108,  mk:2},
+  {id:73,  cat:"Обналичка",  name:"Обналичка до 80мм в развороте",  unit:"п.м",  price:120,  mk:2},
+  {id:74,  cat:"Обналичка",  name:"Обналичка до 90мм в развороте",  unit:"п.м",  price:132,  mk:2},
+  {id:75,  cat:"Обналичка",  name:"Обналичка до 100мм в развороте",  unit:"п.м",  price:144,  mk:2},
+  {id:76,  cat:"Обналичка",  name:"Обналичка до 120мм в развороте",  unit:"п.м",  price:168,  mk:2},
+  {id:77,  cat:"Обналичка",  name:"Обналичка до 140мм в развороте",  unit:"п.м",  price:192,  mk:2},
+  {id:78,  cat:"Обналичка",  name:"Обналичка до 160мм в развороте",  unit:"п.м",  price:216,  mk:2},
+  {id:79,  cat:"Обналичка",  name:"Обналичка до 180мм в развороте",  unit:"п.м",  price:240,  mk:2},
+  {id:80,  cat:"Обналичка",  name:"Обналичка до 200мм в развороте",  unit:"п.м",  price:264,  mk:2},
   {id:56,  cat:"Услуги",  name:"Высотные работы",  unit:"час",  price:0,  mk:1.4,  note:"Только стоимость работы, без материалов"},
   {id:57,  cat:"Услуги",  name:"Услуги автовышки",  unit:"час",  price:0,  mk:1.4}
 ];
@@ -621,7 +621,7 @@ function getColorType(wi) {
   if (nl.includes('кварц-винил')) return 'kv';
   return '';
 }
-const ITEM_MATERIALS = {"1": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP((A+B*2)/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "2", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "2": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP((A+B)/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "3": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "4": [{"name": "Квадрат-труба 60*60*3", "fpcs": "2", "flm": "C", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "2", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "5": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "C", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*60*3", "fpcs": "1", "flm": "C", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "6": [{"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "C+L", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "B+L", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)-2", "flm": "L", "price": 350.0, "markup": 1.4, "unit": "п.м"}], "7": [{"name": "Уголок 63*63*5", "fpcs": "ROUNDUP(A/0.5+1,0)", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "ROUNDUP(A/0.5+1,0)", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "1", "flm": "ЕСЛИ(M>0,A,0)+ЕСЛИ(N>0,B,0)+ЕСЛИ(P>0,B,0)", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(M>0,ROUNDUP(A/1.16,0),0)", "flm": "ЕСЛИ(M>0,M,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(N>0,ROUNDUP(B/1.16,0),0)", "flm": "ЕСЛИ(N>0,N,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(P>0,ROUNDUP(B/1.16,0),0)", "flm": "ЕСЛИ(P>0,P,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}], "8": [{"name": "Доска 100*25", "fpcs": "3", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+0.2)/1.16,0)", "flm": "ЕСЛИ((B+L+0.2)<1.5,1.5,B+L+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "2", "flm": "L", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "A*B*10", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}, {"name": "Пристенная обналичка 20*40*150", "fpcs": "", "flm": "A+0.2", "price": 260.0, "markup": 1.4, "unit": "п.м"}], "9": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP((A+B*2)*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "(A+B*2)*D", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "2", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "10": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP((A+B)*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "(A+B)*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "11": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "12": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*B/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*B", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "13": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(D*C/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "B*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "14": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*B/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*B", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "15": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "4", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+B*2)/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP((A+B*2)*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "16": [{"name": "Доска 100*25", "fpcs": "4", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(B<1.1,1,2)", "flm": "ЕСЛИ(C<3,3,C+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP(C*B*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "17": [{"name": "Доска 150*50", "fpcs": "ROUNDUP(A/0.6,0)", "flm": "B", "price": 200.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "18": [{"name": "Линолеум", "fpcs": "", "flm": "A*B", "price": 600.0, "markup": 1.4, "unit": "кв.м"}], "19": [{"name": "Ламинат 0,194*1,138*8мм", "fpcs": "ROUNDUP(A*B/0.27,0)", "flm": "", "price": 340.0, "markup": 1.4, "unit": "шт"}], "20": [{"name": "Кварц-винил Bonkeel SPC", "fpcs": "ROUNDUP(A*B/0.15,0)", "flm": "", "price": 330.0, "markup": 1.4, "unit": "шт"}], "21": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(B>3,ROUNDUP((B/3*3),0),B<=3,ROUNDUP((B/3*3),0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A+B)/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*2+D*3)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "22": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(A/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+D*2)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "23": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(B>3,ROUNDUP((B/3*3*2),0),B<=3,ROUNDUP((B/3*3*2),0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A+B*2)/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*4+D*4)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "24": [{"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP(B*6/3,0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(B/0.25,0)", "flm": "ЕСЛИМН(C<=2.7,2.7,C>2.7,3)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((B*2+C)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "25": [{"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP(ЕСЛИМН(A<=3,3,A>3,A*3/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(A/0.25/ЕСЛИМН(B<=1,3,B>1,2),0)", "flm": "ЕСЛИМН(B<=1,3,B>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*2)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "26": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A<=3,2,A>3,ROUNDUP(A*2/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP((C/0.5*(A-K)/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP((K-0.7)*3/3,0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A-K)/0.25,0)", "flm": "ЕСЛИМН(C<=2.7,2.7,C>2.7,3)", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(K/0.25/ROUNDUP(2.7/(C-E),0),0)", "flm": "2,7", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((K-0.7)/0.25/2,0)", "flm": "2.7", "price": 380.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок ПВХ универсальный", "fpcs": "ROUNDUP((E*2+K)/3,0)", "flm": "3", "price": 200.0, "markup": 1.4, "unit": "шт"}], "27": [{"name": "Панель откоса", "fpcs": "2", "flm": "E+0.1", "price": 600.0, "markup": 2.0, "unit": "п.м"}, {"name": "Панель откоса", "fpcs": "1", "flm": "K+0.1", "price": 600.0, "markup": 2.0, "unit": "п.м"}, {"name": "Наличник", "fpcs": "2", "flm": "E+0.2", "price": 100.0, "markup": 2.0, "unit": "п.м"}, {"name": "Наличник", "fpcs": "1", "flm": "K+0.3", "price": 100.0, "markup": 2.0, "unit": "п.м"}], "35": [{"name": "Уголок 50*50*5", "fpcs": "2", "flm": "B+1", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Арматура круглая 12 мм", "fpcs": "2", "flm": "B+1", "price": 120.0, "markup": 1.4, "unit": "п.м."}], "36": [{"name": "Трос для сушилки уличной", "fpcs": "1", "flm": "A", "price": 30.0, "markup": 1.4, "unit": "п.м."}, {"name": "Карабин", "fpcs": "2", "flm": "", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Пресскольцо", "fpcs": "2", "flm": "", "price": 100.0, "markup": 1.4, "unit": "шт"}], "58": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "2", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+B)/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP((A+B)*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "59": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP(A/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP(A*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "66": [{"name": "Доска 100*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 150.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "67": [{"name": "Доска 150*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 200.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "68": [{"name": "Плинтус", "fpcs": "ROUNDUP((A*2+B*2+0.4)/2.2,0)", "flm": "2.2", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок внутренний", "fpcs": "4", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок наружный", "fpcs": "2", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Соединение плинтуса", "fpcs": "ЕСЛИМН(A>6.6,3,A>4.4,2,A>2.2,1)+ЕСЛИМН(B>6.6,6,B>4.4,4,B>2.2,2)", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Торцевые заглушки плинтуса", "fpcs": "2", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}], "69": [{"name": "Плинтус", "fpcs": "ROUNDUP((A*2+B*2+0.4)/2.2,0)", "flm": "2.2", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок внутренний", "fpcs": "4", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Соединение плинтуса", "fpcs": "ЕСЛИМН(A>6.6,3,A>4.4,2,A>2.2,1)+ЕСЛИМН(B>6.6,6,B>4.4,4,B>2.2,2)", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}], "81": [{"name": "Доска 200*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 300.0, "markup": 1.4, "unit": "п.м."}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}]};
+const ITEM_MATERIALS = {"1": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP((A+B*2)/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "2", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "2": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP((A+B)/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "3": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "D", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "4": [{"name": "Квадрат-труба 60*60*3", "fpcs": "2", "flm": "C", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "2", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "5": [{"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "C", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*60*3", "fpcs": "1", "flm": "C", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "1", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}], "6": [{"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "C+L", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "2", "flm": "A", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "B", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)", "flm": "B+L", "price": 350.0, "markup": 1.4, "unit": "п.м"}, {"name": "Квадрат-труба 60*40*3", "fpcs": "ROUNDUP(A/0.9+1,0)-2", "flm": "L", "price": 350.0, "markup": 1.4, "unit": "п.м"}], "7": [{"name": "Уголок 63*63*5", "fpcs": "ROUNDUP(A/0.5+1,0)", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "ROUNDUP(A/0.5+1,0)", "flm": "B", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Уголок 63*63*5", "fpcs": "1", "flm": "A", "price": 460.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "1", "flm": "ЕСЛИ(M>0,A,0)+ЕСЛИ(N>0,B,0)+ЕСЛИ(P>0,B,0)", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(M>0,ROUNDUP(A/1.16,0),0)", "flm": "ЕСЛИ(M>0,M,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(N>0,ROUNDUP(B/1.16,0),0)", "flm": "ЕСЛИ(N>0,N,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(P>0,ROUNDUP(B/1.16,0),0)", "flm": "ЕСЛИ(P>0,P,0)", "price": 700.0, "markup": 1.4, "unit": "п.м"}], "8": [{"name": "Доска 100*25", "fpcs": "3", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+0.2)/1.16,0)", "flm": "ЕСЛИ((B+L+0.2)<1.5,1.5,B+L+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "2", "flm": "L", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "A*B*10", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}, {"name": "Пристенная обналичка 20*40*150", "fpcs": "", "flm": "A+0.2", "price": 260.0, "markup": 1.4, "unit": "п.м"}], "9": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP((A+B*2)*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "(A+B*2)*D", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "2", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "10": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP((A+B)*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "(A+B)*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "11": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*D/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "12": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*B/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*B", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "13": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(D*C/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "B*C", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "14": [{"name": "Пеноплекс 30мм 585*1185", "fpcs": "ROUNDUP(A*B/0.7,0)", "flm": "", "price": 300.0, "markup": 1.4, "unit": "лист"}, {"name": "Пенофол 3мм", "fpcs": "A*B", "flm": "", "price": 100.0, "markup": 1.4, "unit": "кв.м"}, {"name": "Пена монтажная", "fpcs": "1", "flm": "", "price": 700.0, "markup": 1.4, "unit": "шт"}], "15": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "4", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+B*2)/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP((A+B*2)*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "16": [{"name": "Доска 100*25", "fpcs": "4", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ЕСЛИ(B<1.1,1,2)", "flm": "ЕСЛИ(C<3,3,C+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP(C*B*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "17": [{"name": "Доска 150*50", "fpcs": "ROUNDUP(A/0.6,0)", "flm": "B", "price": 200.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "18": [{"name": "Линолеум", "fpcs": "", "flm": "A*B", "price": 600.0, "markup": 1.4, "unit": "кв.м"}], "19": [{"name": "Ламинат 0,194*1,138*8мм", "fpcs": "ROUNDUP(A*B/0.27,0)", "flm": "", "price": 340.0, "markup": 1.4, "unit": "шт"}], "20": [{"name": "Кварц-винил Bonkeel SPC", "fpcs": "ROUNDUP(A*B/0.15,0)", "flm": "", "price": 330.0, "markup": 1.4, "unit": "шт"}], "21": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(B>3,ROUNDUP((B/3*3),0),B<=3,ROUNDUP((B/3*3),0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A+B)/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*2+D*3)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "22": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(A/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+D*2)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "23": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A>3,ROUNDUP((A/3*3),0),A<=3,ROUNDUP(A/3*3,0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(B>3,ROUNDUP((B/3*3*2),0),B<=3,ROUNDUP((B/3*3*2),0))", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A+B*2)/0.25/ЕСЛИМН(D<=1,3,D>1,2),0)", "flm": "ЕСЛИМН(D<=1,3,D>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*4+D*4)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "24": [{"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP(B*6/3,0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(B/0.25,0)", "flm": "ЕСЛИМН(C<=2.7,2.7,C>2.7,3)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((B*2+C)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "25": [{"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP(ЕСЛИМН(A<=3,3,A>3,A*3/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(A/0.25/ЕСЛИМН(B<=1,3,B>1,2),0)", "flm": "ЕСЛИМН(B<=1,3,B>1,2.7)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Стартовый профиль L", "fpcs": "ROUNDUP((A*2+B*2)/3.0)", "flm": "3", "price": 80.0, "markup": 1.4, "unit": "шт"}], "26": [{"name": "Рейка 40*20 строганая", "fpcs": "ЕСЛИМН(A<=3,2,A>3,ROUNDUP(A*2/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP((C/0.5*(A-K)/3),0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Рейка 40*20 строганая", "fpcs": "ROUNDUP((K-0.7)*3/3,0)", "flm": "3", "price": 55.0, "markup": 1.4, "unit": "п.м"}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((A-K)/0.25,0)", "flm": "ЕСЛИМН(C<=2.7,2.7,C>2.7,3)", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP(K/0.25/ROUNDUP(2.7/(C-E),0),0)", "flm": "2.7", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Панель ПВХ", "fpcs": "ROUNDUP((K-0.7)/0.25/2,0)", "flm": "2.7", "price": 380.0, "markup": 1.4, "unit": "шт", "pal": 2}, {"name": "Уголок ПВХ универсальный", "fpcs": "ROUNDUP((E*2+K)/3,0)", "flm": "3", "price": 200.0, "markup": 1.4, "unit": "шт"}], "27": [{"name": "Панель откоса", "fpcs": "2", "flm": "E+0.1", "price": 600.0, "markup": 2.0, "unit": "п.м"}, {"name": "Панель откоса", "fpcs": "1", "flm": "K+0.1", "price": 600.0, "markup": 2.0, "unit": "п.м"}, {"name": "Наличник", "fpcs": "2", "flm": "E+0.2", "price": 100.0, "markup": 2.0, "unit": "п.м"}, {"name": "Наличник", "fpcs": "1", "flm": "K+0.3", "price": 100.0, "markup": 2.0, "unit": "п.м"}], "35": [{"name": "Уголок 50*50*5", "fpcs": "2", "flm": "B+1", "price": 400.0, "markup": 1.4, "unit": "п.м"}, {"name": "Арматура круглая 12 мм", "fpcs": "2", "flm": "B+1", "price": 120.0, "markup": 1.4, "unit": "п.м"}], "36": [{"name": "Трос для сушилки уличной", "fpcs": "1", "flm": "A", "price": 30.0, "markup": 1.4, "unit": "п.м"}, {"name": "Карабин", "fpcs": "2", "flm": "", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Пресскольцо", "fpcs": "2", "flm": "", "price": 100.0, "markup": 1.4, "unit": "шт"}], "58": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Доска 100*25", "fpcs": "2", "flm": "B", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP((A+B)/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP((A+B)*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "59": [{"name": "Доска 100*25", "fpcs": "2", "flm": "A", "price": 100.0, "markup": 1.4, "unit": "п.м"}, {"name": "Профнастил 0,45мм", "fpcs": "ROUNDUP(A/1.16,0)", "flm": "ЕСЛИ(D+0.2<1.5,1.5,D+0.2)", "price": 700.0, "markup": 1.4, "unit": "п.м"}, {"name": "Саморезы кровельные 4,8*35", "fpcs": "ROUNDUP(A*D*10,0)", "flm": "", "price": 3.5, "markup": 2.0, "unit": "шт"}], "66": [{"name": "Доска 100*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 150.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "67": [{"name": "Доска 150*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 200.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}], "68": [{"name": "Плинтус", "fpcs": "ROUNDUP((A*2+B*2+0.4)/2.2,0)", "flm": "2.2", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок внутренний", "fpcs": "4", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок наружный", "fpcs": "2", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Соединение плинтуса", "fpcs": "ЕСЛИМН(A>6.6,3,A>4.4,2,A>2.2,1)+ЕСЛИМН(B>6.6,6,B>4.4,4,B>2.2,2)", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Торцевые заглушки плинтуса", "fpcs": "2", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}], "69": [{"name": "Плинтус", "fpcs": "ROUNDUP((A*2+B*2+0.4)/2.2,0)", "flm": "2.2", "price": 100.0, "markup": 1.4, "unit": "шт"}, {"name": "Уголок внутренний", "fpcs": "4", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}, {"name": "Соединение плинтуса", "fpcs": "ЕСЛИМН(A>6.6,3,A>4.4,2,A>2.2,1)+ЕСЛИМН(B>6.6,6,B>4.4,4,B>2.2,2)", "flm": "", "price": 50.0, "markup": 1.4, "unit": "шт"}], "81": [{"name": "Доска 200*50", "fpcs": "ROUNDUP(A/0.4,0)", "flm": "B", "price": 300.0, "markup": 1.4, "unit": "п.м"}, {"name": "Фанера 12мм 1525*1525", "fpcs": "ROUNDUP(A*B/2.3,0)", "flm": "", "price": 1400.0, "markup": 1.4, "unit": "лист"}]};
 
 // ══════════════════════════════════════════════
 // ФОРМУЛЬНЫЙ ДВИЖОК (аналог formula_eval.py)
@@ -632,8 +632,23 @@ function _если(...a)  { return a[0] ? a[1] : (a[2] !== undefined ? a[2] : 0)
 function _еслимн(...a){ for(let i=0;i<a.length-1;i+=2) if(a[i]) return a[i+1]; return 0; }
 function _mround(x,m) { return m ? Math.round(x/m)*m : 0; }
 
+// Запятая вне скобок — это не разделитель аргументов, а десятичная запятая
+// («2,7» вместо «2.7»). JS молча считает её оператором «запятая» и вернул бы 7,
+// а Python такую формулу отбраковывает. Ведём себя одинаково — иначе одна и та же
+// формула даёт разные цифры в EXE и в офлайн-версии.
+function _topLevelComma(f) {
+  let d = 0;
+  for (const ch of f) {
+    if (ch === '(') d++;
+    else if (ch === ')') d--;
+    else if (ch === ',' && d === 0) return true;
+  }
+  return false;
+}
+
 function evalFormula(f, dims) {
   if (!f || !f.trim()) return 0;
+  if (_topLevelComma(f)) return 0;
   try {
     f = f
       .replace(/ЕСЛИМН\s*\(/g, '_еслимн(')
@@ -677,7 +692,20 @@ function calcItemQty(fpcs, flm, unit, dims) {
 // Округление до копеек — как round(x, 2) в Python (formula_eval.py)
 function round2(x) { return Math.round((Number(x) || 0) * 100) / 100; }
 
-function calcFormulaClient(wiId, dims) {
+// Наценка за цвет на уровне МАТЕРИАЛА — матчит formula_eval.mat_color_mult.
+// Материал без палитры (рейка, стартовый профиль) от цвета не дорожает, панель ПВХ — дорожает.
+function matColorMult(m, colorA) {
+  if (!m || !m.pal || !colorA) return 1.0;
+  const pal = PALETTES[String(m.pal)];
+  if (!pal) return 1.0;
+  const o = (pal.options['цвет'] || []).find(x => x.name === colorA);
+  return o ? o.m : 1.0;
+}
+
+// Закупочная цена материала с учётом цвета, округлённая до копеек — как в formula_eval.
+function matPrice(m, colorA) { return round2(m.price * matColorMult(m, colorA)); }
+
+function calcFormulaClient(wiId, dims, colorA) {
   const mats = ITEM_MATERIALS[wiId];
   if (!mats || !mats.length) return null;
   // Матчит formula_eval.item_formula_cost: каждый материал округляется до копеек,
@@ -685,7 +713,7 @@ function calcFormulaClient(wiId, dims) {
   let total = 0;
   for (const m of mats) {
     const qty = calcItemQty(m.fpcs, m.flm, m.unit, dims);
-    total += round2(qty * m.price * (1 + m.markup));
+    total += round2(qty * matPrice(m, colorA) * (1 + m.markup));
   }
   return round2(total);
 }
@@ -695,12 +723,16 @@ function getDims() {
   return {A:g('dA'),B:g('dB'),C:g('dC'),D:g('dD'),E:g('dE'),K:g('dK'),L:g('dL'),M:g('dM'),N:g('dN'),P:g('dP')};
 }
 
-function getItemClientPrice(wi, dims) {
+// Введён хоть один размер? Учитываем ЛЮБОЙ (а не только A/B/C/D), иначе откосы (E,K)
+// и кровля (L) считались бы по снимку станд. размеров.
+function hasDims(dims) {
+  return !!(dims && (dims.A || dims.B || dims.C || dims.D || dims.E || dims.K || dims.L || dims.M || dims.N || dims.P));
+}
+
+function getItemClientPrice(wi, dims, colorA) {
   if (ITEM_MATERIALS[wi.id]) {
-    // Запускаем формулу при наличии ЛЮБОГО размера (а не только A/B/C/D),
-    // иначе откосы (E,K) и кровля (L) считались бы по снимку станд. размеров.
-    if (dims && (dims.A || dims.B || dims.C || dims.D || dims.E || dims.K || dims.L || dims.M || dims.N || dims.P)) {
-      const v = calcFormulaClient(wi.id, dims);
+    if (hasDims(dims)) {
+      const v = calcFormulaClient(wi.id, dims, colorA);
       if (v !== null) return v;
     }
     return wi.cp || 0;
@@ -710,7 +742,9 @@ function getItemClientPrice(wi, dims) {
   return round2(wi.price * (1 + mk));
 }
 
-// Множитель цвета — сначала палитра работы (ось «цвет»), потом старые правила COLOR_RULES.
+// Множитель цвета для позиции ЦЕЛИКОМ — сначала палитра работы (ось «цвет»), потом старые
+// правила COLOR_RULES. Применяется только к позициям БЕЗ раскроя: там разложить наценку
+// по материалам не по чему. У позиций с раскроем цвет удорожает отдельные материалы.
 function getColorMult(itemId, colorA) {
   if (!colorA) return 1.0;
   const w = WORK_ITEMS.find(x => x.id === itemId);
@@ -728,9 +762,14 @@ function getColorMult(itemId, colorA) {
   return wildcard;
 }
 
-// Цена за единицу С учётом цвета, округлённая до копеек — матчит compute_item_cost.
+// Цена за единицу С учётом цвета, округлённая до копеек — матчит compute_item_cost:
+// у позиций с раскроем цвет удорожает отдельные материалы (панель ПВХ), а не всю позицию.
 function getItemUnitPrice(wi, it, dims) {
-  const base = getItemClientPrice(wi, dims);
+  if (ITEM_MATERIALS[wi.id] && hasDims(dims)) {
+    const v = calcFormulaClient(wi.id, dims, it.color);
+    if (v !== null) return v;
+  }
+  const base = getItemClientPrice(wi, dims, it.color);
   const mult = getColorMult(it.id, it.color);
   return mult !== 1.0 ? round2(base * mult) : base;
 }
@@ -1344,7 +1383,14 @@ function updateColorBadge(id) {
   if (!badge) return;
   const cb    = document.getElementById('wic' + id);
   const color = getColorAValue(id);
-  const pct   = Math.round((getColorMult(id, color) - 1) * 100);
+  // Реальная надбавка: у позиций с раскроем дорожает только цветной материал,
+  // поэтому процент считаем от цены позиции, а не берём множитель палитры.
+  let pct = Math.round((getColorMult(id, color) - 1) * 100);
+  const _d = getDims();
+  if (color && ITEM_MATERIALS[id] && hasDims(_d)) {
+    const b = calcFormulaClient(id, _d, ''), t = calcFormulaClient(id, _d, color);
+    pct = (b && t) ? Math.round((t / b - 1) * 100) : 0;
+  }
   if (!cb || !cb.checked || !color || pct === 0) {
     badge.textContent = '';
     badge.className = 'wi-cbadge';
@@ -1599,7 +1645,7 @@ function renderView(est) {
   const _multiCat = _groups.length > 1;
   let _idx = 0;
   const itemsHtml = _groups.map(g => {
-    const head = `<tr class="cat-row"><td colspan="6">${g.cat}</td></tr>`;
+    const head = `<tr class="cat-row"><td colspan="5">${g.cat}</td></tr>`;
     const rows = g.rows.map(({ wi, it, tot }) => {
       _idx++;
       const colorParts = [it.color, it.colorB, it.colorC].filter(Boolean);
@@ -1608,13 +1654,12 @@ function renderView(est) {
       return `<tr>
         <td>${_idx}</td>
         <td>${wi.name}${colorNote}</td>
-        <td>${wi.unit}</td>
-        <td>${it.qty}</td>
+        <td>${fmtQty(it.qty, wi.unit)}</td>
         <td class="num">${fmtRub(per)}</td>
         <td class="num pay">${fmtRub(tot)}</td>
       </tr>`;
     }).join('');
-    const sub = _multiCat ? `<tr class="sub-row"><td colspan="5">ИТОГО:</td><td class="num"><b>${fmtRub(g.subtotal)}</b></td></tr>` : '';
+    const sub = _multiCat ? `<tr class="sub-row"><td colspan="4">ИТОГО:</td><td class="num"><b>${fmtRub(g.subtotal)}</b></td></tr>` : '';
     return head + rows + sub;
   }).join('');
 
@@ -1673,7 +1718,7 @@ function renderView(est) {
       ${est.items.length ? `
       <div class="sect-title">Состав работ</div>
       <div class="tbl-wrap"><table class="tbl bordered">
-        <thead><tr><th>#</th><th>Наименование</th><th>Ед.</th><th>Кол-во</th><th class="num">Цена/ед.</th><th class="num">Итого</th></tr></thead>
+        <thead><tr><th>#</th><th>Наименование</th><th>Кол-во</th><th class="num">Цена/ед.</th><th class="num">Итого</th></tr></thead>
         <tbody>${itemsHtml}</tbody>
       </table></div>` : ''}
 
@@ -1912,16 +1957,19 @@ function buildPrintHtml(est) {
   const detailsHtml = details ? details.replace(/\r/g, '').split('\n').map(l => esc(l)).join('<br>') : '';
   let idx = 0;
   const rowsHtml = groups.map(g => {
-    const cat = `<tr><td colspan="6" style="background:#eef4ff;font-weight:bold;color:#16407a;padding:4px 6px">${esc(g.cat)}</td></tr>`;
+    const cat = `<tr><td colspan="5" style="background:#eef4ff;font-weight:bold;color:#16407a;padding:4px 6px">${esc(g.cat)}</td></tr>`;
     const rows = g.rows.map(({ wi, it, tot }) => {
       idx++;
       const per = it.qty ? tot / it.qty : tot;
-      return `<tr><td>${idx}</td><td>${esc(wi.name)}</td><td>${esc(wi.unit)}</td><td class="num">${it.qty}</td><td class="num">${fmtRub(per)}</td><td class="num">${fmtRub(tot)}</td></tr>`;
+      // Цвет — отдельной строкой под названием, как в накладной и «Закупке»
+      const cp = [it.color, it.colorB, it.colorC].filter(Boolean);
+      const cn = cp.length ? `<br><span style="font-size:8pt;color:#555">${esc(cp.join(' / '))}</span>` : '';
+      return `<tr><td>${idx}</td><td>${esc(wi.name)}${cn}</td><td class="num">${fmtQty(it.qty, wi.unit)}</td><td class="num">${fmtRub(per)}</td><td class="num">${fmtRub(tot)}</td></tr>`;
     }).join('');
-    const sub = multi ? `<tr><td colspan="5" class="num" style="font-style:italic;color:#555;padding:3px 6px">ИТОГО:</td><td class="num" style="font-weight:bold;padding:3px 6px">${fmtRub(g.subtotal)}</td></tr>` : '';
+    const sub = multi ? `<tr><td colspan="4" class="num" style="font-style:italic;color:#555;padding:3px 6px">ИТОГО:</td><td class="num" style="font-weight:bold;padding:3px 6px">${fmtRub(g.subtotal)}</td></tr>` : '';
     return cat + rows + sub;
   }).join('');
-  const discHtml = t.discAmt > 0 ? `<tr><td colspan="5" class="num">Скидка:</td><td class="num">${fmtRub(t.discAmt)}</td></tr>` : '';
+  const discHtml = t.discAmt > 0 ? `<tr><td colspan="4" class="num">Скидка:</td><td class="num">${fmtRub(t.discAmt)}</td></tr>` : '';
   const letterhead = (company || detailsHtml || logo) ? `<div class="letterhead" style="display:flex;align-items:flex-start;justify-content:space-between;gap:8mm">
   <div><div class="lh-company">${esc(company)}</div>${detailsHtml ? `<div class="lh-details">${detailsHtml}</div>` : ''}</div>
   ${logo ? `<img src="${logo}" style="height:13mm;width:auto;flex-shrink:0">` : ''}</div>` : '';
@@ -1955,14 +2003,14 @@ ${letterhead}
 </div>
 <table>
   <thead><tr>
-    <th style="width:5%">№</th><th>Наименование работ и материалов</th><th style="width:8%">Ед.</th>
-    <th style="width:9%" class="num">Кол-во</th><th style="width:13%" class="num">Цена, руб.</th><th style="width:13%" class="num">Стоимость, руб.</th>
+    <th style="width:5%">№</th><th>Наименование работ и материалов</th>
+    <th style="width:14%" class="num">Кол-во</th><th style="width:14%" class="num">Цена, руб.</th><th style="width:15%" class="num">Стоимость, руб.</th>
   </tr></thead>
   <tbody>
   ${rowsHtml}
-  <tr class="total-row"><td colspan="5" class="num">Итого:</td><td class="num">${fmtRub(t.client)}</td></tr>
+  <tr class="total-row"><td colspan="4" class="num">Итого:</td><td class="num">${fmtRub(t.client)}</td></tr>
   ${discHtml}
-  <tr class="final-row"><td colspan="5" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(t.final)}</td></tr>
+  <tr class="final-row"><td colspan="4" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(t.final)}</td></tr>
   </tbody>
 </table>
 ${est.notes ? `<p class="footer">Примечание: ${esc(est.notes)}</p>` : ''}
@@ -2038,14 +2086,15 @@ function buildInvoicePrintHtml(est) {
   let idx = 0, grand = 0, body = '';
   for (const it of (est.items || [])) {
     const wi = WORK_ITEMS.find(w => w.id === it.id); if (!wi) continue;
-    const cm = getColorMult(wi.id, it.color), cp = [it.color, it.colorB, it.colorC].filter(Boolean);
+    const cp = [it.color, it.colorB, it.colorC].filter(Boolean);
     const mats = ITEM_MATERIALS[wi.id]; let list;
     if (mats && mats.length) {
-      body += `<tr class="work-header"><td colspan="8">${esc(wi.name + (cp.length ? ' — ' + cp.join(' / ') : ''))}</td></tr>`;
+      body += `<tr class="work-header"><td colspan="7">${esc(wi.name + (cp.length ? ' — ' + cp.join(' / ') : ''))}</td></tr>`;
       list = mats.map(m => {
         const pcs = m.fpcs ? evalFormula(m.fpcs, d) : null, lm = m.flm ? evalFormula(m.flm, d) : null;
         const q = round2(calcItemQty(m.fpcs, m.flm, m.unit, d) * (it.qty || 1));
-        return { name: m.name || '', unit: m.unit, pcs: pcs != null ? round2(pcs * (it.qty || 1)) : null, len: lm != null ? round2(lm) : null, qty: q, price: round2(m.price * (1 + m.markup) * cm), total: round2(q * m.price * (1 + m.markup) * cm) };
+        const mp = matPrice(m, it.color);
+        return { name: m.name || '', unit: m.unit, pcs: pcs != null ? round2(pcs * (it.qty || 1)) : null, len: lm != null ? round2(lm) : null, qty: q, price: round2(mp * (1 + m.markup)), total: round2(q * mp * (1 + m.markup)) };
       });
     } else {
       const pu = getItemUnitPrice(wi, it, d);
@@ -2053,7 +2102,7 @@ function buildInvoicePrintHtml(est) {
     }
     for (const r of list) {
       idx++; grand = round2(grand + r.total);
-      body += `<tr><td>${idx}</td><td>${esc(r.name)}</td><td>${esc(r.unit || '')}</td><td class="num">${r.pcs != null ? r.pcs : ''}</td><td class="num">${r.len != null ? r.len : ''}</td><td class="num">${r.qty}</td><td class="num">${fmtRub(r.price)}</td><td class="num">${fmtRub(r.total)}</td></tr>`;
+      body += `<tr><td>${idx}</td><td>${esc(r.name)}</td><td class="num">${r.pcs && r.pcs !== r.qty ? fmtNum(r.pcs) : ''}</td><td class="num">${r.len ? fmtNum(r.len) : ''}</td><td class="num">${fmtQty(r.qty, r.unit)}</td><td class="num">${fmtRub(r.price)}</td><td class="num">${fmtRub(r.total)}</td></tr>`;
     }
   }
   const _inv = invoiceDiscount(est, round2(grand));
@@ -2083,16 +2132,16 @@ ${letterhead}
 </p>
 <table>
   <thead><tr>
-    <th style="width:4%">№</th><th style="width:26%">Наименование</th><th style="width:7%">Ед.</th>
-    <th style="width:7%" class="num">Шт.</th><th style="width:10%" class="num">Длина, м</th>
-    <th style="width:11%" class="num">Всего</th><th style="width:16%" class="num">Цена/ед., руб.</th>
-    <th style="width:16%" class="num">Стоимость, руб.</th>
+    <th style="width:4%">№</th><th style="width:29%">Наименование</th>
+    <th style="width:8%" class="num">Шт.</th><th style="width:11%" class="num">Длина, м</th>
+    <th style="width:14%" class="num">Всего</th><th style="width:16%" class="num">Цена/ед., руб.</th>
+    <th style="width:18%" class="num">Стоимость, руб.</th>
   </tr></thead>
   <tbody>
   ${body}
-  <tr class="total-row"><td colspan="7" class="num">ИТОГО:</td><td class="num">${fmtRub(round2(grand))}</td></tr>
-  ${_inv.amt > 0 ? `<tr><td colspan="7" class="num">Скидка:</td><td class="num">${fmtRub(_inv.amt)}</td></tr>
-  <tr class="final-row"><td colspan="7" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(_inv.final)}</td></tr>` : ''}
+  <tr class="total-row"><td colspan="6" class="num">ИТОГО:</td><td class="num">${fmtRub(round2(grand))}</td></tr>
+  ${_inv.amt > 0 ? `<tr><td colspan="6" class="num">Скидка:</td><td class="num">${fmtRub(_inv.amt)}</td></tr>
+  <tr class="final-row"><td colspan="6" class="num">К ОПЛАТЕ:</td><td class="num">${fmtRub(_inv.final)}</td></tr>` : ''}
   </tbody>
 </table>
 <table style="width:100%; border:none; border-collapse:collapse; margin-top:9mm">
@@ -2137,13 +2186,13 @@ function drawEstimate(est, mode) {
   function hl(yy,c,w){ctx.strokeStyle=c||'#333';ctx.lineWidth=w||1;ctx.beginPath();ctx.moveTo(PX,yy);ctx.lineTo(PX+CW,yy);ctx.stroke();}
   function wrap(t,f,mw){ctx.font=f;if(ctx.measureText(t).width<=mw)return[t,''];let lo=1,hi=t.length;while(lo<hi-1){const m=(lo+hi)>>1;ctx.measureText(t.slice(0,m)).width<=mw?lo=m:hi=m;}for(let i=lo;i>=1;i--){if(t[i]===' ')return[t.slice(0,i),t.slice(i+1)];}return[t.slice(0,lo),t.slice(lo)];}
 
-  // колонки таблицы: № Наименование Ед Кол-во Цена Стоимость
-  const fr=[0,0.05,0.55,0.63,0.72,0.86,1],X=fr.map(f=>PX+f*CW),PAD=4*S,RH=15*S,TY=10.5*S;
+  // колонки таблицы: № Наименование Кол-во(с ед.) Цена Стоимость
+  const fr=[0,0.05,0.62,0.72,0.86,1],X=fr.map(f=>PX+f*CW),PAD=4*S,RH=15*S,TY=10.5*S;
   function cell(x1,x2,h,bg,bc){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle=bc||'#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
-  // строка из 6 ячеек; cells[i]={t,align,color} или null
-  function trow(cells,o){o=o||{};const f=o.font||F9,h=o.h||RH;chk(h);for(let i=0;i<6;i++){cell(X[i],X[i+1],h,o.bg,o.bc);const c=cells[i];if(!c||c.t==null||c.t==='')continue;const al=c.align||'left';let xx=X[i]+PAD;if(al==='right')xx=X[i+1]-PAD;if(al==='center')xx=(X[i]+X[i+1])/2;tx(c.t,xx,y+TY,c.font||f,c.color||'#111',al);}y+=h;}
-  // широкая строка: ячейка №1..5 (подпись справа) + ячейка №6 (значение)
-  function span5(label,value,o){o=o||{};const h=o.h||RH;chk(h);cell(X[0],X[5],h,o.bg);cell(X[5],X[6],h,o.bg);tx(label,X[5]-PAD,y+TY,o.lf||F9,o.lc||'#111','right');tx(value,X[6]-PAD,y+TY,o.vf||F9,o.vc||'#111','right');y+=h;}
+  // строка из 5 ячеек; cells[i]={t,align,color} или null
+  function trow(cells,o){o=o||{};const f=o.font||F9,h=o.h||RH;chk(h);for(let i=0;i<5;i++){cell(X[i],X[i+1],h,o.bg,o.bc);const c=cells[i];if(!c||c.t==null||c.t==='')continue;const al=c.align||'left';let xx=X[i]+PAD;if(al==='right')xx=X[i+1]-PAD;if(al==='center')xx=(X[i]+X[i+1])/2;tx(c.t,xx,y+TY,c.font||f,c.color||'#111',al);}y+=h;}
+  // широкая строка: ячейка №1..4 (подпись справа) + последняя ячейка (значение)
+  function span5(label,value,o){o=o||{};const h=o.h||RH;chk(h);cell(X[0],X[4],h,o.bg);cell(X[4],X[5],h,o.bg);tx(label,X[4]-PAD,y+TY,o.lf||F9,o.lc||'#111','right');tx(value,X[5]-PAD,y+TY,o.vf||F9,o.vc||'#111','right');y+=h;}
 
   pg();
   // ── Фирменный бланк (реквизиты слева, логотип справа, нижняя линия) ──
@@ -2172,23 +2221,24 @@ function drawEstimate(est, mode) {
     kv('Клиент:  ',est.client_name||'',true);
     kv('Балкон:  ',`Д ${d.A||0}м × Ш ${d.B||0}м, выс.перил ${d.D||0}м, выс.балкона ${d.C||0}м`);
     y+=6*S;
-    // 8 колонок как в «Закупке»: № Наименование Ед Шт Длина Всего Цена/ед Стоимость
-    const ifr=[0,0.04,0.30,0.37,0.45,0.56,0.67,0.835,1],IX=ifr.map(f=>PX+f*CW);
+    // 7 колонок как в «Закупке»: № Наименование Шт Длина Всего(с ед.) Цена/ед Стоимость
+    const ifr=[0,0.04,0.33,0.41,0.52,0.66,0.82,1],IX=ifr.map(f=>PX+f*CW);
     function icell(x1,x2,h,bg,bc){if(bg){ctx.fillStyle=bg;ctx.fillRect(x1,y,x2-x1,h);}ctx.strokeStyle=bc||'#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(x1,y,x2-x1,h);}
     function ihdr(tt){chk(RH);ctx.fillStyle='#f0f0f0';ctx.fillRect(IX[0],y,CW,RH);ctx.strokeStyle='#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(IX[0],y,CW,RH);tx(tt,IX[0]+PAD,y+TY,F8b,'#111');y+=RH;}
-    chk(RH);const HD=['№','Наименование','Ед.','Шт.','Длина, м','Всего','Цена/ед., руб.','Стоимость, руб.'],HA=['left','left','left','right','right','right','right','right'];
-    for(let i=0;i<8;i++){icell(IX[i],IX[i+1],RH,'#ddddee','#888');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F8,'#111',HA[i]);}y+=RH;
+    chk(RH);const HD=['№','Наименование','Шт.','Длина, м','Всего','Цена/ед., руб.','Стоимость, руб.'],HA=['left','left','right','right','right','right','right'];
+    for(let i=0;i<7;i++){icell(IX[i],IX[i+1],RH,'#ddddee','#888');let xx=IX[i]+PAD;if(HA[i]==='right')xx=IX[i+1]-PAD;tx(HD[i],xx,y+TY,F8,'#111',HA[i]);}y+=RH;
     let idx=0,grand=0;
     for(const it of (est.items||[])){
       const wi=WORK_ITEMS.find(w=>w.id===it.id);if(!wi)continue;
-      const cm=getColorMult(wi.id,it.color),cp=[it.color,it.colorB,it.colorC].filter(Boolean);
+      const cp=[it.color,it.colorB,it.colorC].filter(Boolean);
       const mats=ITEM_MATERIALS[wi.id];let list;
       if(mats&&mats.length){
         ihdr(wi.name+(cp.length?' — '+cp.join(' / '):''));
         list=mats.map(m=>{
           const pcs=m.fpcs?evalFormula(m.fpcs,d):null,lm=m.flm?evalFormula(m.flm,d):null;
           const q=round2(calcItemQty(m.fpcs,m.flm,m.unit,d)*(it.qty||1));
-          return {name:m.name||'',unit:m.unit,pcs:pcs!=null?round2(pcs*(it.qty||1)):null,len:lm!=null?round2(lm):null,qty:q,price:round2(m.price*(1+m.markup)*cm),total:round2(q*m.price*(1+m.markup)*cm)};
+          const mp=matPrice(m,it.color);
+          return {name:m.name||'',unit:m.unit,pcs:pcs!=null?round2(pcs*(it.qty||1)):null,len:lm!=null?round2(lm):null,qty:q,price:round2(mp*(1+m.markup)),total:round2(q*mp*(1+m.markup))};
         });
       } else {
         const pu=getItemUnitPrice(wi,it,d);
@@ -2197,25 +2247,24 @@ function drawEstimate(est, mode) {
       for(const r of list){
         idx++;grand=round2(grand+r.total);
         const[n1,n2]=wrap(r.name,F8,IX[2]-IX[1]-2*PAD),h=n2?RH*2:RH;chk(h);
-        for(let i=0;i<8;i++)icell(IX[i],IX[i+1],h);
+        for(let i=0;i<7;i++)icell(IX[i],IX[i+1],h);
         tx(String(idx),IX[0]+PAD,y+TY,F8);tx(n1,IX[1]+PAD,y+TY,F8);if(n2)tx(n2,IX[1]+PAD,y+TY+10*S,F8);
-        tx(r.unit||'',IX[2]+PAD,y+TY,F8);
-        tx(r.pcs!=null?String(r.pcs):'',IX[4]-PAD,y+TY,F8,'#111','right');
-        tx(r.len!=null?String(r.len):'',IX[5]-PAD,y+TY,F8,'#111','right');
-        tx(String(r.qty),IX[6]-PAD,y+TY,F8,'#111','right');
-        tx(fmtRub(r.price),IX[7]-PAD,y+TY,F8,'#111','right');
-        tx(fmtRub(r.total),IX[8]-PAD,y+TY,F8,'#111','right');
+        tx(r.pcs&&r.pcs!==r.qty?fmtNum(r.pcs):'',IX[3]-PAD,y+TY,F8,'#111','right');
+        tx(r.len?fmtNum(r.len):'',IX[4]-PAD,y+TY,F8,'#111','right');
+        tx(fmtQty(r.qty,r.unit),IX[5]-PAD,y+TY,F8,'#111','right');
+        tx(fmtRub(r.price),IX[6]-PAD,y+TY,F8,'#111','right');
+        tx(fmtRub(r.total),IX[7]-PAD,y+TY,F8,'#111','right');
         y+=h;
       }
     }
-    chk(RH);icell(IX[0],IX[7],RH,'#eeeeff');icell(IX[7],IX[8],RH,'#eeeeff');
-    tx('ИТОГО:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(grand),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
+    chk(RH);icell(IX[0],IX[6],RH,'#eeeeff');icell(IX[6],IX[7],RH,'#eeeeff');
+    tx('ИТОГО:',IX[6]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(grand),IX[7]-PAD,y+TY,F8b,'#111','right');y+=RH;
     const _inv=invoiceDiscount(est,grand);
     if(_inv.amt>0){
-      chk(RH);icell(IX[0],IX[7],RH);icell(IX[7],IX[8],RH);
-      tx('Скидка:',IX[7]-PAD,y+TY,F8,'#111','right');tx(fmtRub(_inv.amt),IX[8]-PAD,y+TY,F8,'#111','right');y+=RH;
-      chk(RH);icell(IX[0],IX[7],RH,'#e0ffe0');icell(IX[7],IX[8],RH,'#e0ffe0');
-      tx('К ОПЛАТЕ:',IX[7]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(_inv.final),IX[8]-PAD,y+TY,F8b,'#111','right');y+=RH;
+      chk(RH);icell(IX[0],IX[6],RH);icell(IX[6],IX[7],RH);
+      tx('Скидка:',IX[6]-PAD,y+TY,F8,'#111','right');tx(fmtRub(_inv.amt),IX[7]-PAD,y+TY,F8,'#111','right');y+=RH;
+      chk(RH);icell(IX[0],IX[6],RH,'#e0ffe0');icell(IX[6],IX[7],RH,'#e0ffe0');
+      tx('К ОПЛАТЕ:',IX[6]-PAD,y+TY,F8b,'#111','right');tx(fmtRub(_inv.final),IX[7]-PAD,y+TY,F8b,'#111','right');y+=RH;
     }
     // Подписи продавца и покупателя (расшифровка — ниже строки подписи)
     y+=24*S;chk(36*S);
@@ -2235,20 +2284,22 @@ function drawEstimate(est, mode) {
   y+=8*S;
 
   // таблица
-  trow([{t:'№'},{t:'Наименование работ и материалов'},{t:'Ед.'},{t:'Кол-во',align:'right'},{t:'Цена, руб.',align:'right'},{t:'Стоимость, руб.',align:'right'}],{bg:'#e8e8e8',font:F9,bc:'#999'});
+  trow([{t:'№'},{t:'Наименование работ и материалов'},{t:'Кол-во',align:'right'},{t:'Цена, руб.',align:'right'},{t:'Стоимость, руб.',align:'right'}],{bg:'#e8e8e8',font:F9,bc:'#999'});
   const groups=groupItemsByCat(est.items,d),multi=groups.length>1;let idx=0;
   for(const g of groups){
     chk(RH);ctx.fillStyle='#eef4ff';ctx.fillRect(X[0],y,CW,RH);ctx.strokeStyle='#ccc';ctx.lineWidth=0.5*S;ctx.strokeRect(X[0],y,CW,RH);
     tx(g.cat,X[0]+PAD,y+TY,F9b,'#16407a');y+=RH;
     for(const {wi,it,tot} of g.rows){
       idx++;const per=it.qty?tot/it.qty:tot;
-      const cp=[it.color,it.colorB,it.colorC].filter(Boolean);
-      let nm=wi.name+(cp.length?' ('+cp.join(' / ')+')':'');
-      const[n1,n2]=wrap(nm,F9,X[2]-X[1]-2*PAD),h=n2?RH*2:RH;chk(h);
-      for(let i=0;i<6;i++)cell(X[i],X[i+1],h);
+      const cp=[it.color,it.colorB,it.colorC].filter(Boolean),cs=cp.join(' / ');
+      // Цвет — отдельной строкой мелким серым под названием, 1:1 с HTML-бланком
+      const[n1,n2]=wrap(wi.name,F9,X[2]-X[1]-2*PAD);
+      const nlines=1+(n2?1:0)+(cs?1:0),h=RH*nlines;chk(h);
+      for(let i=0;i<5;i++)cell(X[i],X[i+1],h);
       tx(String(idx),X[0]+PAD,y+TY,F9);tx(n1,X[1]+PAD,y+TY,F9);if(n2)tx(n2,X[1]+PAD,y+TY+11*S,F9);
-      tx(wi.unit,X[2]+PAD,y+TY,F9);tx(String(it.qty),X[4]-PAD,y+TY,F9,'#111','right');
-      tx(fmtRub(per),X[5]-PAD,y+TY,F9,'#111','right');tx(fmtRub(tot),X[6]-PAD,y+TY,F9,'#111','right');
+      if(cs)tx(cs,X[1]+PAD,y+TY+11*S*(n2?2:1),F8,'#555');
+      tx(fmtQty(it.qty,wi.unit),X[3]-PAD,y+TY,F9,'#111','right');
+      tx(fmtRub(per),X[4]-PAD,y+TY,F9,'#111','right');tx(fmtRub(tot),X[5]-PAD,y+TY,F9,'#111','right');
       y+=h;
     }
     if(multi)span5('ИТОГО:',fmtRub(g.subtotal),{lf:F9i,lc:'#555',vf:F9b});
@@ -2366,6 +2417,25 @@ document.addEventListener('click', () => {
 function fmtRub(v) {
   return Math.round(v).toLocaleString('ru-RU') + ' ₽';
 }
+// Единая запись единицы: «п.м.» → «п.м» — матчит norm_unit в app.py
+function normUnit(u) {
+  u = (u || '').trim();
+  return u.replace(/\.+$/, '') || u;
+}
+// Число до сотых, без хвостовых нулей: 12.0 → «12», 5.796 → «5.8» — матчит фильтр num.
+// Округление только для показа: стоимость считается от неокруглённого количества.
+function fmtNum(v) {
+  const f = Number(v);
+  if (!isFinite(f)) return v == null ? '' : String(v);
+  return String(Math.round(f * 100) / 100);
+}
+// Количество с единицей в одной колонке вместо «Ед.» + «Кол-во»: «12 п.м», «5 шт».
+// Без единицы непонятно ни что означает «Всего», ни за что берётся цена.
+function fmtQty(v, unit) {
+  const n = fmtNum(v), u = normUnit(unit);
+  return u ? n + ' ' + u : n;
+}
+
 function today() {
   return new Date().toLocaleDateString('ru-RU');
 }
