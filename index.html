@@ -1469,14 +1469,20 @@ function invoiceDiscount(est, grand) {
 // core = A,B,C,D,E,K,L (нужен каждый упомянутый); over = выносы M,N,P
 // (для работ с выносами нужно задать ХОТЯ БЫ ОДИН — напр. «Расширение по плите»).
 const _needDimsCache = {};
+// Размер, встречающийся ТОЛЬКО в проверке наличия («ЕСЛИ(L>0,4,0)»), не обязателен:
+// это поправка на случай, если размер задан (напр. «Каркас перил П-обр» и подъём кровли).
+function formulaUsesDim(f, v) {
+  const bare = f.replace(new RegExp('\\b' + v + '\\s*(?:>=|<=|<>|!=|>|<|=)\\s*0(?![.\\d])', 'g'), ' ');
+  return new RegExp('\\b' + v + '\\b').test(bare);
+}
 function neededReqDims(id) {
   if (_needDimsCache[id]) return _needDimsCache[id];
   const core = [], over = [];
   const mats = ITEM_MATERIALS[id];
   if (mats) {
     const f = mats.map(m => (m.fpcs || '') + ' ' + (m.flm || '')).join(' ');
-    ['A', 'B', 'C', 'D', 'E', 'K', 'L'].forEach(v => { if (new RegExp('\\b' + v + '\\b').test(f)) core.push(v); });
-    ['M', 'N', 'P'].forEach(v => { if (new RegExp('\\b' + v + '\\b').test(f)) over.push(v); });
+    ['A', 'B', 'C', 'D', 'E', 'K', 'L'].forEach(v => { if (formulaUsesDim(f, v)) core.push(v); });
+    ['M', 'N', 'P'].forEach(v => { if (formulaUsesDim(f, v)) over.push(v); });
   }
   return (_needDimsCache[id] = { core, over });
 }
